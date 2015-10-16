@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>Instafood</title> 
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">        
+
+        <!-- Bootstrap Core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="css/sb-admin.css" rel="stylesheet">
+
+        <!-- Morris Charts CSS -->
+        <link href="css/plugins/morris.css" rel="stylesheet">
+
+        <!-- Custom Fonts -->
+        <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="css/carousselcss.css" rel="stylesheet">
+
+
+        <!-- jQuery -->
+        <script src="js/jquery.js"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $("#navbarCode").load("navbar.html");
+                var arrayRecipes = [];
+                getJSON("recetas");
+                //Lectura JSON
+                function getJSON(type) {
+                    var xmlhttp = new XMLHttpRequest();
+                    var url = "json/" + type + ".json";
+                    //var url = "http://www.w3schools.com/website/Customers_MYSQL.php";
+                    xmlhttp.onreadystatechange = function () {
+                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                            myFunction(xmlhttp.responseText, type);
+                        }
+                    }
+                    function myFunction(response, type) {
+                        if (type === "recetas") {
+                            arrayRecipes = JSON.parse(response);
+                        }
+                    }
+                    xmlhttp.open("GET", url, true);
+                    xmlhttp.send();
+                }
+
+                $('#bsearch').click(function () {
+                    var s = $("#searching").val();
+                    window.location = "template-busqueda.html?name=" + s;
+                });
+            });</script>
+        <!-- Morris Charts JavaScript -->
+        <script src="js/plugins/nuestrocaroussel/caroussel.js" type="text/javascript"></script>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+    </head>
+
+    <body>
+
+        <div id="wrapper">
+
+            <!-- Navigation -->
+            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="background-color: #E80307;" id="navbarCode"></nav>
+
+            <div id="page-wrapper">
+
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <h1 class="page-header">
+                                Inicio
+                            </h1>                            
+                        </div>
+                        <div class="col-lg-3">
+                            <h1 class="page-header">
+                                <small>Busca tu Receta</small>
+                            </h1>                            
+                        </div>
+                        <div class="col-lg-6 page-header">                            
+                            <div class="form-group input-group">
+                                <input type="text" id="searching" class="form-control">
+                                <span class="input-group-btn"><button class="btn btn-default" id="bsearch" type="button"><i class="fa fa-search"></i></button></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- /.row -->
+
+                    <div class="row">
+                        <div class="slideContainer" id="slideContainer">
+                            <div class="nuestraSlide" id="slide0">
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading panel-food" id="pDes">
+                                            <img id="imgDesayunos" src="img/desayunos/food4.jpg" />
+                                            <div class="row">
+                                                <div class="col-xs-3">                                            
+                                                </div>
+                                                <div class="col-xs-9 text-right">
+                                                    <div class="huge">26</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a href="template-recetas.html?tipo=Desayunos">
+                                            <div class="panel-footer">
+                                                <span class="pull-left">Desayunos</span>
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="panel panel-green">
+                                        <div class="panel-heading panel-food">
+                                            <img id="imgComidas" src="img/desayunos/food3.jpg" />
+                                            <div class="row">
+                                                <div class="col-xs-3">
+                                                </div>
+                                                <div class="col-xs-9 text-right">
+                                                    <div class="huge">12</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a href="template-recetas.html?tipo=Comidas">
+                                            <div class="panel-footer">
+                                                <span class="pull-left">Comidas</span>
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="panel panel-yellow">
+                                        <div class="panel-heading panel-food">
+                                            <img id="imgCenas" src="img/desayunos/food3.jpg" />
+                                            <div class="row">
+                                                <div class="col-xs-3">
+                                                </div>
+                                                <div class="col-xs-9 text-right">
+                                                    <div class="huge">124</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a href="template-recetas.html?tipo=Cenas">
+                                            <div class="panel-footer">
+                                                <span class="pull-left">Cenas</span>
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="panel panel-red">
+                                        <div class="panel-heading panel-food">
+                                            <img id="imgSnacks" src="img/desayunos/food4.jpg" />
+                                            <div class="row">
+                                                <div class="col-xs-3">
+                                                </div>
+                                                <div class="col-xs-9 text-right">
+                                                    <div class="huge">13</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a href="template-recetas.html?tipo=Snacks">
+                                            <div class="panel-footer">
+                                                <span class="pull-left">Snacks</span>
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.row -->
+
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="panel panel-default">
+
+                                <div class="panel-body">
+                                    <center><img id="mainImg" src="img/inicio.png" class="img-responsive"/></center>
+                                </div>
+                            </div>
+                        </div>                                            
+                        <div class="col-lg-4">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> Tasks Panel</h3>
+                                </div
+                                <div class="panel-body">
+                                    <div class="list-group">
+                                        <a href="#" class="list-group-item">
+                                            <span class="badge">just now</span>
+                                            <i class="fa fa-fw fa-calendar"></i> Calendar updated
+                                        </a>
+                                        <a href="#" class="list-group-item">
+                                            <span class="badge">4 minutes ago</span>
+                                            <i class="fa fa-fw fa-comment"></i> Commented on a post
+                                        </a>
+                                        <a href="#" class="list-group-item">
+                                            <span class="badge">23 minutes ago</span>
+                                            <i class="fa fa-fw fa-truck"></i> Order 392 shipped
+                                        </a>
+                                        <a href="#" class="list-group-item">
+                                            <span class="badge">46 minutes ago</span>
+                                            <i class="fa fa-fw fa-money"></i> Invoice 653 has been paid
+                                        </a>
+                                        <a href="#" class="list-group-item">
+                                            <span class="badge">1 hour ago</span>
+                                            <i class="fa fa-fw fa-user"></i> A new user has been added
+                                        </a>
+                                        <a href="#" class="list-group-item">
+                                            <span class="badge">2 hours ago</span>
+                                            <i class="fa fa-fw fa-check"></i> Completed task: "pick up dry cleaning"
+                                        </a>
+                                        <a href="#" class="list-group-item">
+                                            <span class="badge">yesterday</span>
+                                            <i class="fa fa-fw fa-globe"></i> Saved the world
+                                        </a>
+                                        <a href="#" class="list-group-item">
+                                            <span class="badge">two days ago</span>
+                                            <i class="fa fa-fw fa-check"></i> Completed task: "fix error on sales page"
+                                        </a>
+                                    </div>
+                                    <div class="text-right">
+                                        <a href="#">View All Activity <i class="fa fa-arrow-circle-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.row -->
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- /#page-wrapper -->
+
+        </div>
+        <!-- /#wrapper -->
+    </body>
+
+</html>
