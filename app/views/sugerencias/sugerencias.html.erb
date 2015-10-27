@@ -1,0 +1,312 @@
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                                Sugerencias
+                            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-5">
+            <label>Incluir ingredientes</label>
+            <select class="form-control" id="incluir" multiple size="5">
+                <% @ingredientes.each do |ingrediente| %>
+                    <option>
+                        <%=ingrediente.nombre %>
+                    </option>
+                    <% end %>
+            </select>
+        </div>
+
+        <div class="col-lg-2">
+            <label></label>
+            <center>
+                <button type="button" class="btn btn-success" id="anadeInc">&gt;&gt;</button>
+                <br />
+                <br />
+                <button type="button" class="btn btn-danger" id="quitaInc">&lt;&lt;</button>
+            </center>
+        </div>
+        <div class="col-lg-5">
+            <label>Ingredientes incluidos</label>
+            <select class="form-control" id="listaIncluidos" multiple size="5">
+
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-5">
+            <label>Filtrar ingredientes</label>
+            <select class="form-control" id="excluir" multiple size="5">
+                <% @ingredientes.each do |ingrediente| %>
+                    <option>
+                        <%=ingrediente.nombre %>
+                    </option>
+                    <% end %>
+            </select>
+        </div>
+        <div class="col-lg-2">
+            <label></label>
+            <center>
+                <button type="button" class="btn btn-success" id="anadeExc">&gt;&gt;</button>
+                <br />
+                <br />
+                <button type="button" class="btn btn-danger" id="quitaExc">&lt;&lt;</button>
+            </center>
+        </div>
+        <div class="col-lg-5">
+            <label>Ingredientes excluidos</label>
+            <select multiple class="form-control" id="listaExcl" size="5">
+
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <center>
+                <button type="button" class="btn btn-primary" id="buscarRecetas">Buscar recetas</button>
+            </center>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="page-header">
+            <h1>Recetas encontradas</h1>
+        </div>
+        <div id="id01">
+            
+        Ya muestra todas las recetas.
+            
+        </div>
+    </div>
+</div>
+<!-- /.container-fluid -->
+
+<script>
+    var n = document.getElementById("incluir");
+    var m = document.getElementById("excluir");
+    var arrIngredientesIncluidos = [];
+    var arrIngredientesExcluidos = [];
+
+    function optionExists(sel, val) {
+        return $(sel + " option[value='" + val + "']").length !== 0;
+    }
+
+    $('#anadeInc').click(function() {
+        $("#incluir option:selected").each(function(index, element) {
+            if (!optionExists("#listaIncluidos", element.value)) {
+                $("#listaIncluidos").append("<option value='" + element.value + "'>" + element.text + "</option>");
+                arrIngredientesIncluidos.push(n.value);
+                $(this).remove();
+            }
+        });
+        $("option:selected").removeAttr("selected");
+    });
+
+    $('#quitaInc').click(function() {
+        $("#listaIncluidos option:selected").each(function(index, element) {
+            $("#incluir").append("<option value='" + element.value + "'>" + element.text + "</option>");
+            var x = $(this);
+            var index = arrIngredientesIncluidos.indexOf(x.val());
+            arrIngredientesIncluidos.splice(index, 1);
+            $(this).remove();
+        });
+    });
+    $('#anadeExc').click(function() {
+        $("#excluir option:selected").each(function(index, element) {
+            if (!optionExists("#listaExcl", element.value)) {
+                $("#listaExcl").append("<option value='" + element.value + "'>" + element.text + "</option>");
+                arrIngredientesExcluidos.push(m.value);
+                $(this).remove();
+            }
+        });
+        $("option:selected").removeAttr("selected");
+    });
+
+    $('#quitaExc').click(function() {
+        $("#listaExcl option:selected").each(function(index, element) {
+            $("#excluir").append("<option value='" + element.value + "'>" + element.text + "</option>");
+            var x = $(this);
+            var index = arrIngredientesExcluidos.indexOf(x.val());
+            arrIngredientesExcluidos.splice(index, 1);
+            $(this).remove();
+        });
+    });
+    
+    $('#buscarRecetas').click(function () {
+        document.getElementById("id01").innerHTML = " ";
+      var out="<% @recetas.each do |ingrediente| %><option><%=ingrediente.nombre %></option><% end %>";
+     
+      document.getElementById("id01").innerHTML = out;
+    });
+</script>
+
+<!--
+<script>
+            $("#navbarCode").load("navbar.html");
+            $('#formaIng').submit(function (e) {
+                e.preventDefault();
+            });
+
+            var arrayAll = [];
+            var arrayProcedures = [];
+            var arrayRecipes = [];
+            getJSON("recetas");
+            getJSON("ingredientes");
+            /*************PRUEBA*****************************/
+            //Lectura JSON
+            function getJSON(type) {
+                var xmlhttp = new XMLHttpRequest();
+                var url = "json/" + type + ".json";
+                //var url = "http://www.w3schools.com/website/Customers_MYSQL.php";
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        myFunction(xmlhttp.responseText, type);
+                    }
+                }
+                function myFunction(response, type) {
+                    if (type === "recetas") {
+                        arrayRecipes = JSON.parse(response);
+                    } else {
+                        arrayAll = JSON.parse(response);
+                        var i;
+                        for (i = 0; i < arrayAll.length; i++) {
+                            $("#incluir").append('<option value="' + arrayAll[i].nombre + '">' + arrayAll[i].nombre + '</option>');
+                            $("#excluir").append('<option value="' + arrayAll[i].nombre + '">' + arrayAll[i].nombre + '</option>');
+                        }
+                        /*AÑADIR MULTIPLE SELECT*/
+                    }
+                }
+                xmlhttp.open("GET", url, true);
+                xmlhttp.send();
+            }
+
+            /*******************PRUEBA**************/
+
+            $('#buscarRecetas').click(function () {
+                document.getElementById("id01").innerHTML = " ";
+                var xmlhttp = new XMLHttpRequest();
+                var url = "json/recetas.json";
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        myFunction(xmlhttp.responseText);
+                    }
+                }
+                xmlhttp.open("GET", url, true);
+                xmlhttp.send();
+                function myFunction(response) {
+                    var arr = JSON.parse(response);
+                    var i, j, k;
+                    var out = "<table><tr><td>";
+                    var recetasEncontradas = [];
+                    var recetasExcluidas = [];
+                    var idEncontrados = [];
+                    var contadorIngredientes = [];
+                    var idExcluidos = [];
+                    var sizeIngIncl = arrIngredientesIncluidos.length;
+                    var sizeIngExcl = arrIngredientesExcluidos.length;
+                    //LLENA LOS ARREGLOS CON LAS COINCIDENCIAS DE RECETAS E INGREDIENTES                        
+                    for (i = 0; i < arr.length; i++) {
+                        contadorIngredientes[i] = 0;
+                        var n = arr[i].ingredientes.length;
+                        for (j = 0; j < n; j++) {
+                            for (k = 0; k < sizeIngIncl; k++) {
+                                if ((arr[i].ingredientes[j].ing.nombre) == arrIngredientesIncluidos[k]) {
+                                    recetasEncontradas.push(arr[i].image);
+                                    idEncontrados.push(arr[i].id);
+                                    contadorIngredientes[i] += 1;
+                                }
+                            }
+                            for (k = 0; k < sizeIngExcl; k++) {
+                                if ((arr[i].ingredientes[j].ing.nombre) == arrIngredientesExcluidos[k]) {
+                                    recetasExcluidas.push(arr[i].image);
+                                    idExcluidos.push(arr[i].id);
+                                }
+                            }
+                        }
+                    }
+                    //ELIMINAR 0'S DEL CONTADOR DE INGREDIENTES  
+                    while (contadorIngredientes.indexOf(0) != (-1)) {
+                        for (i = 0; i < contadorIngredientes.length; i++) {
+                            if (contadorIngredientes[i] == 0) {
+                                contadorIngredientes.splice(i, 1);
+                            }
+                        }
+                    }
+                    //ELIMINA REPETICIONES                        
+                    var unicos = [];
+                    $.each(idEncontrados, function (i, el) {
+                        if ($.inArray(el, unicos) === -1)
+                            unicos.push(el);
+                    });
+                    idEncontrados = unicos;
+
+                    unicos = [];
+                    $.each(recetasEncontradas, function (i, el) {
+                        if ($.inArray(el, unicos) === -1)
+                            unicos.push(el);
+                    });
+                    recetasEncontradas = unicos;
+
+                    unicos = [];
+                    $.each(recetasExcluidas, function (i, el) {
+                        if ($.inArray(el, unicos) === -1)
+                            unicos.push(el);
+                    });
+                    recetasExcluidas = unicos;
+
+                    unicos = [];
+                    $.each(idExcluidos, function (i, el) {
+                        if ($.inArray(el, unicos) === -1)
+                            unicos.push(el);
+                    });
+                    idExcluidos = unicos;
+
+                    //ORDENA LAS RECETAS DE MAYOR A MENOR COINCIDENCIAS 
+                    var aux = [];
+                    var auxRecetas = [];
+                    var auxId = [];
+                    for (i = 0; i < contadorIngredientes.length; i++) {
+                        for (j = 0; j < contadorIngredientes.length; j++) {
+                            if (contadorIngredientes[i] > contadorIngredientes[j]) {
+                                //ORDENA EL CONTADOR
+                                aux = contadorIngredientes[j];
+                                contadorIngredientes[j] = contadorIngredientes[i];
+                                contadorIngredientes[i] = aux;
+                                //ORDENA LAS IMAGENES
+                                auxRecetas = recetasEncontradas[j];
+                                recetasEncontradas[j] = recetasEncontradas[i];
+                                recetasEncontradas[i] = auxRecetas;
+                                //ORDENA LOS ID'S
+                                auxId = idEncontrados[j];
+                                idEncontrados[j] = idEncontrados[i];
+                                idEncontrados[i] = auxId;
+                            }
+                        }
+                    }
+
+                    //ELIMINA LAS RECETAS ENCONTRADAS QUE INCLUYEN INGREDIENTES EXCLUIDOS
+
+                    var diff = $(idEncontrados).not(idExcluidos).get();
+                    idEncontrados = diff;
+
+                    diff = $(recetasEncontradas).not(recetasExcluidas).get();
+                    recetasEncontradas = diff;
+
+                    //ESCRIBE TODAS LAS RECETAS QUE ENCUETRA
+                    for (i = 0; i < recetasEncontradas.length; i++) {
+                        out += '<a href="template-receta.html?id=' + idEncontrados[i] + '"><img src="img/' + recetasEncontradas[i] + '" height="300" width="300" /></a>  &nbsp;';
+                    }
+                    out += "</table>";
+                    document.getElementById("id01").innerHTML = out;
+                }
+            });
+
+
+        </script> 
+-->

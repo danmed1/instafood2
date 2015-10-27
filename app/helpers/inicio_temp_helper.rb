@@ -1,0 +1,2 @@
+module InicioTempHelper
+end

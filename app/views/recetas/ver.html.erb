@@ -1,0 +1,135 @@
+<div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <h1 class="page-header">
+                                Busqueda
+                            </h1>                            
+                        </div>
+                        <div class="col-lg-3">
+                            <h1 class="page-header">
+                                <small>Busca tu receta</small>
+                            </h1>                            
+                        </div>
+                        <div class="col-lg-6 page-header">                            
+                            <div class="form-group input-group">
+                                <input type="text" id="searching" class="form-control">
+                                <span class="input-group-btn"><button class="btn btn-default" id="bsearch" type="button"><i class="fa fa-search"></i></button></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- /.row -->
+
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <center><h1 id="titleR"></h1></center><br />
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <img class="img-thumbnail" id="imageR" />
+                                </div>
+                                <div class="col-lg-8">
+                                    <label>Descripción:</label>
+                                    <textarea class="form-control" id="descripcionR" readonly></textarea><br />
+                                    <label>Tiempo de Preparación(min):</label>
+                                    <input class="form-control" type="text" id="tiempoR" readonly="" /><br />
+                                    <label>Porciones:</label>
+                                    <input class="form-control" type="text" id="porcionesR" readonly="" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <h2>Ingredientes:</h2><ul id="ingredientesR"></ul>
+                                </div>
+                                <div class="col-lg-8">
+                                    <h2>Procedimiento:</h2><ol id="procedimientosR"></ol>
+                                </div>
+                            </div>                                                                                  
+                        </div>
+                        <table>
+                            <tr>
+                                <td>Nombre</td>
+                                <td>Descripcion</td>
+                                <td>Porciones</td>
+                                <td>Tiempo Preparacion</td>
+                                <td>Fecha creacion</td>
+                                <td>Tipo</td>
+                                <td>Imagen</td>
+                            </tr>
+                            <% @recetum.each do |recet|  %>
+                            <tr>
+                                <td><%= recet.nombre%></td>
+                                <td><%= recet.descripcion%></td>
+                                <td><%= recet.type%></td>
+                            </tr>
+                            <% end %>
+                        </table>
+                        
+                    </div>
+                    <!-- /.row -->
+
+                </div>
+                <!-- /.container-fluid -->
+
+<script>
+            $(document).ready(function () {
+                $("#navbarCode").load("navbar.html");
+                function getUrlParameter(sParam) {
+                    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                            sURLVariables = sPageURL.split('&'),
+                            sParameterName,
+                            i;
+
+                    for (i = 0; i < sURLVariables.length; i++) {
+                        sParameterName = sURLVariables[i].split('=');
+
+                        if (sParameterName[0] === sParam) {
+                            return sParameterName[1] === undefined ? true : sParameterName[1];
+                        }
+                    }
+                }
+                var id = getUrlParameter('id');
+
+                var arrayRecipes = [];
+                getJSON("recetas");
+                //Lectura JSON
+                function getJSON(type) {
+                    var xmlhttp = new XMLHttpRequest();
+                    var url = "json/" + type + ".json";
+                    //var url = "http://www.w3schools.com/website/Customers_MYSQL.php";
+                    xmlhttp.onreadystatechange = function () {
+                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                            myFunction(xmlhttp.responseText, type);
+                        }
+                    }
+                    function myFunction(response, type) {
+                        if (type === "recetas") {
+                            arrayRecipes = JSON.parse(response);
+                            document.getElementById("titleR").innerHTML=arrayRecipes[id].nombre;
+                            $("#descripcionR").val(arrayRecipes[id].descripcion);
+                            $("#tiempoR").val(arrayRecipes[id].tiempoPrep);
+                            $("#porcionesR").val(arrayRecipes[id].porciones);
+                            $("#imageR").attr("src","img/"+arrayRecipes[id].image);
+                            var i;
+                            for(i=0;i<arrayRecipes[id].ingredientes.length;i++){
+                                $("#ingredientesR").append('<li>' + arrayRecipes[id].ingredientes[i].cantidad + 
+                                arrayRecipes[id].ingredientes[i].unidad + " de " + arrayRecipes[id].ingredientes[i].ing.nombre + '</li>');
+                            }
+                            for(i=0;i<arrayRecipes[id].procedimiento.length;i++){
+                                $("#procedimientosR").append('<li>' + arrayRecipes[id].procedimiento[i].pro + '</li>');
+                            }
+                        }
+                    }
+                    xmlhttp.open("GET", url, true);
+                    xmlhttp.send();
+                }
+
+                $('#bsearch').click(function () {
+                    var s = $("#searching").val();
+                    window.location = "template-busqueda.html?name=" + s;
+                });
+            });
+        </script>
+        
+        

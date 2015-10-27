@@ -31,39 +31,26 @@ function caroussel() {
     i++;
 }
 function caroussel2(imgId, imageArray) {
-    $("#" + imgId).attr("src", "img/" + imageArray[i % imageArray.length]);
+    $("#" + imgId).attr("src", "/assets/desayunos/" + imageArray[i % imageArray.length]);
 }
-
 
 function encuentraImagenesRecetas() {
-    var xmlhttp = new XMLHttpRequest();
-    var url = "json/recetas.json";
-    xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-            myFunction(xmlhttp.responseText);
-        }
-    };
-    xmlhttp.open("GET", url, true);
-    xmlhttp.send();
-}
-function myFunction(response) {
-    var arr = JSON.parse(response);
+    var arr = ["food1.jpg","food2.jpg","food3.jpg","food4.jpg","food5.jpg","food6.jpg","food7.jpg","food8.jpg"];
+    
+    desayunosArray.push(arr[0]);
+    desayunosArray.push(arr[1]);
+    comidasArray.push(arr[2]);
+    comidasArray.push(arr[3]);
+    cenasArray.push(arr[4]);
+    cenasArray.push(arr[5]);
+    snacksArray.push(arr[6]);
+    snacksArray.push(arr[7]);
+   
     for (var i = 0; i < arr.length; i++) {
-        todasComidas.push(arr[i].image);
-        switch (arr[i].tipo) {
-            case "desayuno":
-                desayunosArray.push(arr[i].image);
-                break;
-            case "comida":
-                comidasArray.push(arr[i].image);
-                break;
-            case"cena":
-                cenasArray.push(arr[i].image);
-                break;
-            case"snack":
-                snacksArray.push(arr[i].image);
-                break;
-        }
+                
+                todasComidas.push(arr[i]);
+     
+        
     }
 }
 

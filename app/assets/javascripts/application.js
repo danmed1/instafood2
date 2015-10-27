@@ -14,4 +14,5 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap.min
+//= require plugins/nuestrocaroussel/caroussel
 //= require_tree .

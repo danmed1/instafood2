@@ -1,0 +1,389 @@
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                                Añade tu receta
+                            </h1>
+        </div>
+
+    </div>
+
+    <!-- /.row -->
+    <%=form_for(@receta) do |f| %>
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+
+                <form name="basicform" id="basicform" method="post" action="#">
+
+                    <!-- id will be unique, but class name will be same -->
+                    <div id="sf1" class="frm">
+
+                        <fieldset>
+                            <legend>Paso 1 de 3 | Selecciona tus ingredientes</legend>
+
+                            <div class="form-group">
+                                <div class="col-lg-12">
+                                    <label>Nombre de la receta:</label>
+                                    <%=f .text_field :nombre %>
+                                        <br />
+                                </div>
+                                <div class="col-lg-5">
+
+                                    <select class="form-control" id="allIngredients" multiple size="10">
+                                    </select>
+                                </div>
+                                <div class="col-lg-2">
+                                    <center>
+                                        <button type="button" class="btn btn-success" id="anade">&gt;&gt;</button>
+                                        <br />
+                                        <br />
+                                        <button type="button" class="btn btn-danger" id="quita">&lt;&lt;</button>
+                                    </center>
+                                </div>
+                                <div class="col-lg-5">
+                                    <select class="form-control" id="addedIngredients" multiple size="10">
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-lg-10 col-lg-offset-2">
+                                    <!-- open1 is given in the class that is binded with the click event -->
+                                    <br />
+                                    <button class="btn btn-primary open1" type="button">Next <span class="fa fa-arrow-right"></span></button>
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </div>
+
+                    <!-- id will be unique, but class name will be same -->
+                    <div id="sf2" class="frm">
+
+                        <fieldset>
+                            <legend>Paso 2 de 3 | Ingresa los pasos</legend>
+
+                            <div class="form-group">
+                                <label class="col-lg-12 control-label" for="uemail">Procedimiento: </label>
+                                <div class="col-lg-12">
+                                    <div id="proceds"></div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <%=f .text_area :procedimiento %>
+                                </div>
+                                <div class="col-lg-4">
+                                    <button class="btn btn-info" id="addProcedure" type="button"> Añade Procedimiento</button>
+                                </div>
+                            </div>
+
+                            <div class="clearfix" style="height: 10px;clear: both;"></div>
+
+                            <div class="form-group">
+                                <div class="col-lg-10 col-lg-offset-2">
+                                    <!-- back2 unique class name  -->
+                                    <button class="btn btn-warning back2" type="button"><span class="fa fa-arrow-left"></span> Back</button>
+                                    <!-- open2 unique class name -->
+                                    <button class="btn btn-primary open2" type="button">Next <span class="fa fa-arrow-right"></span></button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <!-- id will be unique, but class name will be same -->
+                    <div id="sf3" class="frm">
+
+                        <fieldset>
+                            <legend>Paso 3 de 3 | Descripción y confirmación</legend>
+
+                            
+                            <br />
+
+                            <div class="form-group">
+                                <div class="col-lg-6">
+                                    <h4>Ingredientes:</h4>
+                                    <table id="ingredientsCon">
+                                        <thead>
+                                            <tr>
+                                                <td>Ingrediente</td>
+                                                <td>Cantidad</td>
+                                                <td>Unidad</td>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Descripción:</label>
+                                    <%=f .text_field :descripcion %>
+                                    <br />
+                                    <label>Porciones:</label>
+                                    <%=f .text_field :porciones %>
+                                    <br />
+                                    <label>Tiempo de preparación:</label>
+                                    <%=f .text_field :tiempoPrep %>
+                                </div>
+                            </div>
+                            <br />
+
+                            <div class="form-group">
+                                <div class="col-lg-6">
+                                    <h4>Procedimientos:</h4>
+                                    <ol id="proceduresCon"></ol>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Tipo de alimento:</label>
+                                    
+                                    <!--<select id="tipoCon" class="form-control">
+                                        <option value="desayuno">desayuno</option>
+                                        <option value="comida">comida</option>
+                                        <option value="cena">cena</option>
+                                        <option value="snack">snack</option>
+                                    </select>-->
+                                    <%=f .text_field :tipo %>
+                                    <br />
+                                    
+                                    <br />
+                                    <label>Imagen:</label>
+                                    <%=f .text_field :image %>
+
+                                </div>
+                            </div>
+                            <br />
+
+
+                            <div class="form-group">
+                                <div class="col-lg-10 col-lg-offset-2">
+                                    <!-- Unique class name -->
+                                    <button class="btn btn-warning back3" type="button"><span class="fa fa-arrow-left"></span> Back</button>
+                                    <!-- Unique class name -->
+                                    <%=f .submit 'Guardar' %>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <% end%>
+            <!-- /.row -->
+
+</div>
+<!-- /.container-fluid -->
+<!--
+        <script>
+            $(document).ready(function () {
+                $("#navbarCode").load("navbar.html");
+                var arrayAll = [];
+                var arrayProcedures = [];
+                var arrayRecipes = [];
+                getJSON("recetas");
+                getJSON("ingredientes");
+
+                //Lectura JSON
+                function getJSON(type) {
+                    var xmlhttp = new XMLHttpRequest();
+                    var url = "json/" + type + ".json";
+                    //var url = "http://www.w3schools.com/website/Customers_MYSQL.php";
+                    xmlhttp.onreadystatechange = function () {
+                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                            myFunction(xmlhttp.responseText, type);
+                        }
+                    }
+                    function myFunction(response, type) {
+                        if (type === "recetas") {
+                            arrayRecipes = JSON.parse(response);
+                        } else {
+                            arrayAll = JSON.parse(response);
+                            var i;
+                            for (i = 0; i < arrayAll.length; i++) {
+                                $("#allIngredients").append('<option value="' + arrayAll[i].id + '">' + arrayAll[i].nombre + '</option>');
+                            }
+                            /*AÑADIR MULTIPLE SELECT*/
+                        }
+                    }
+                    xmlhttp.open("GET", url, true);
+                    xmlhttp.send();
+                }
+
+                $(".frm").hide("fast");
+                $("#sf1").show("slow");
+
+                // Binding next button on first step
+                $(".open1").click(function () {
+                    if ($("#recipeName").val()) {
+                        if ($("#addedIngredients option").size()) {
+                            $(".frm").hide("fast");
+                            $("#sf2").show("slow");
+                        } else {
+                            alert("Ingresa al menos un Ingrediente");
+                        }
+                    } else {
+                        alert("Ingresa un Nombre");
+                    }
+
+                });
+
+                // Binding next button on second step
+                $(".open2").click(function () {
+                    if ($("#proceds").text().length > 0) {
+                        //Jalar todo al form del paso 3
+                        $("#nombreCon").val($("#recipeName").val());
+                        $("#ingredientsCon").empty();
+                        $("#addedIngredients option").each(function (index, element) {
+                            $("#ingredientsCon").append("<tr><td>" + element.text + "</td>\n\
+                            <td><input class=\"form-control\" type=\"number\" id=\"can" + index + "\" /></td>\n\
+                            <td><select class=\"form-control\" id=\"uni" + index + "\">\n\
+                                    <option value=\"kg\">kg</option>\n\
+                                    <option value=\"g\">g</option>\n\
+                                    <option value=\"lt\">lt</option>\n\
+                                </select></td></tr>");
+                        });
+
+                        jQuery.each(arrayProcedures, function (i, val) {
+                            $("#proceduresCon").append('<li>' + val + '</li>');
+                        });
+                        /*
+                         $("#addedIngredients option").each(function (index, element) {
+                         $("#procedureCon").append("<li>" + element.text + "</li>");
+                         });*/
+                        //esconde los otros
+                        $(".frm").hide("fast");
+                        $("#sf3").show("slow");
+                    } else {
+                        alert("Ingresa al menos un Paso de Procedimiento");
+                    }
+                });
+
+                // Binding back button on second step
+                $(".back2").click(function () {
+                    $(".frm").hide("fast");
+                    $("#sf1").show("slow");
+                });
+
+                // Binding back button on third step
+                $(".back3").click(function () {
+                    $("#ingredientsCon").empty();
+                    $("#proceduresCon").empty();
+                    $(".frm").hide("fast");
+                    $("#sf2").show("slow");
+                });
+
+                $(".open3").click(function () {
+                    if ($("#descriptionCon").val()) {
+                        if ($("#porcionesCon").val()) {
+                            if ($("#tiempoCon").val() && $("#imageCon").val()) {
+                                // used delay form submission for a seccond and show a loader image
+                                $("#loader").show();
+                                var ing = [];
+                                var pro = [];
+
+                                $("#addedIngredients option").each(function (index, element) {
+                                    var aux = {};
+                                    var aux2 = {};
+
+                                    aux2["nombre"] = element.text;
+                                    aux2["id"] = element.value;
+
+                                    aux["unidad"] = $("#uni" + index + " option:selected").val();
+                                    aux["cantidad"] = $("#can" + index).val();
+
+                                    aux["ing"] = aux2;
+                                    ing.push(aux);
+                                });
+
+                                var i;
+                                for (i = 0; i < arrayProcedures.length; i++) {
+                                    var aux = {};
+                                    aux["paso"] = i + 1;
+                                    aux["pro"] = arrayProcedures[i];
+                                    pro.push(aux);
+                                }
+
+                                var nueva = {
+                                    "id": arrayRecipes.length,
+                                    "nombre": $("#recipeName").val(),
+                                    "descripcion": $("#descriptionCon").val(),
+                                    "porciones": $("#porcionesCon").val(),
+                                    "tiempoPrep": $("#tiempoCon").val(),
+                                    "fechaCrecion": new Date().toDateString(),
+                                    "tipo": $("#tipoCon").val(),
+                                    "image": $('#imageCon[type=file]').val().split('\\').pop(),
+                                    "ingredientes": ing,
+                                    "procedimiento": pro
+                                }
+                                arrayRecipes.push(nueva);
+                                var jsonNuevo = JSON.stringify(arrayRecipes);
+                                var intento = JSON.parse(jsonNuevo);
+                                console.log(intento);
+                                setTimeout(function () {
+                                    $("#basicform").html('<h2>Thanks for your time.</h2>');
+                                }, 1000);
+                                // Remove this if you are not using ajax method for submitting values
+                                return false;
+                            } else {
+                                alert("Ingresa un Tiempo de preparación e imagen");
+                            }
+                        } else {
+                            alert("Ingresa Cuantas Porciones se obtienen");
+                        }
+                    } else {
+                        alert("Ingresa una Descripción");
+                    }
+                });
+
+                function optionExists(sel, val) {
+                    return $(sel + " option[value='" + val + "']").length !== 0;
+                }
+
+                //Paso 1: Anadir y remover de las listas              
+                $('#anade').click(function () {
+                    //$("#addedIngredients").empty();
+                    $("#allIngredients option:selected").each(function (index, element) {
+                        if (!optionExists("#addedIngredients", element.value)) {
+                            $("#addedIngredients").append("<option value='" + element.value + "'>" + element.text + "</option>");
+                            $(this).remove();
+                        }
+                    });
+                    $("option:selected").removeAttr("selected");
+                    //AÑADIR SCRIPT MULTIPLE SELECT
+                });
+
+                $('#quita').click(function () {
+                    $("#addedIngredients option:selected").each(function (index, element) {
+                        $("#allIngredients").append("<option value='" + element.value + "'>" + element.text + "</option>");
+                        $(this).remove();
+                    });
+                });
+
+                //Paso 2: Anadir Procedimientos
+                $('#addProcedure').click(function () {
+                    if ($('#procedure').val()) {
+                        arrayProcedures.push($('#procedure').val());
+                        var arrL = arrayProcedures.length;
+                        $('#proceds').append('<div class="row" id="div' + arrL + '">\n\
+                                                <div class="col-lg-1">\n\
+                                                    <button type="button" id="' + arrL + '" class="btn btn-default remueveP">X</button>\n\
+                                                </div>\n\
+                                                <div class="col-lg-11">\n\
+                                                    <p>' + $('#procedure').val() + '</p>\n\
+                                                </div><hr>\n\
+                                            </div>');
+
+                        $('.remueveP').click(function () {
+                            var num = $(this).attr('id');
+                            $('#div' + num).empty();
+                            arrayProcedures.eq(num - 1).val('');
+                        });
+
+                        $('#procedure').val('');
+                    } else {
+                        alert('campo vacio');
+                    }
+                });
+            });
+        </script>
+        -->

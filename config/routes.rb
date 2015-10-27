@@ -1,12 +1,39 @@
 Rails.application.routes.draw do
-  get 'inicio/index'
+
+  resources :ingredientes
+  resources :receta
+  resources :receta
+  resources :receta
+  resources :receta
+  resources :receta
+  
+  
+  get 'cuenta/login', to: 'cuenta#login', as: :login
+  get 'cuenta/misrec', to: 'cuenta#misrec', as: :misrec
+  
+  get 'inicio/index', as: :inicio
+  
+  get 'menus/comidas', to: 'menus#comida', as: :comidas
+  get 'menus/desayunos', to: 'menus#desayuno', as: :desayunos
+  get 'menus/cenas', to: 'menus#cena', as: :cenas
+  get 'menus/snacks', to: 'menus#snack', as: :snacks
+
+  get 'sugerencias/sugerencias', as: :sugerencias
+
+  get 'recetas/ver', to: 'recetas#ver', as: :verReceta
+  get 'recetas/altas', to: 'recetas#altas', as: :altasr
+  get 'recetas/bajas'
+  get 'recetas/actualizar'
+  
+  get 'ingredientes/new'
 
   resources :usuarios
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'inicio#index'
+  root 'cuenta#login'
+
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
