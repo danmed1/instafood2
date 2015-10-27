@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id_receta: 
+  id_ingrediente: 
+  cantidad: 1.5
+  unidad: MyString
+
+two:
+  id_receta: 
+  id_ingrediente: 
+  cantidad: 1.5
+  unidad: MyString

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id_usuario: 
+  id_receta: 
+  calif: 
+  siCalif: false
+
+two:
+  id_usuario: 
+  id_receta: 
+  calif: 
+  siCalif: false

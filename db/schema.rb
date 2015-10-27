@@ -11,33 +11,65 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151023081141) do
+ActiveRecord::Schema.define(version: 20151027145832) do
 
-  create_table "ingredientes", force: :cascade do |t|
+  create_table "categoria_ings", force: :cascade do |t|
     t.string   "nombre"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  create_table "categoria_recs", force: :cascade do |t|
+    t.string   "nombre"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "ingredientes", force: :cascade do |t|
+    t.string   "nombre"
+    t.string   "imagen"
+    t.integer  "categoria_ing_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
   create_table "receta", force: :cascade do |t|
     t.string   "nombre"
-    t.text     "descripcion"
-    t.integer  "porciones"
-    t.float    "tiempoPrep"
-    t.datetime "fechaCreacion"
-    t.string   "tipo"
-    t.string   "image"
     t.text     "procedimiento"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.integer  "tiempo_preparacion"
+    t.integer  "porciones"
+    t.integer  "usuario_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  create_table "receta_ings", force: :cascade do |t|
+    t.integer  "receta_id"
+    t.integer  "ingrediente_id"
+    t.float    "cantidad"
+    t.string   "unidad"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  create_table "receta_usrs", force: :cascade do |t|
+    t.integer  "usuario_id"
+    t.integer  "receta_id"
+    t.integer  "calif"
+    t.boolean  "siCalif"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "usuarios", force: :cascade do |t|
-    t.string   "nombre"
     t.string   "email"
+    t.string   "password"
+    t.string   "string"
+    t.string   "alias"
+    t.string   "nombre"
+    t.string   "appellido"
+    t.date     "f_nac"
     t.boolean  "activo"
-    t.string   "foto"
-    t.string   "pwd"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
