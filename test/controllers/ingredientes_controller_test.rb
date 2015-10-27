@@ -15,7 +15,7 @@ class IngredientesControllerTest < ActionController::TestCase
     get :new
     assert_response :success
   end
-
+  
   test "should create ingrediente" do
     assert_difference('Ingrediente.count') do
       post :create, ingrediente: { nombre: @ingrediente.nombre }
