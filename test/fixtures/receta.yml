@@ -2,14 +2,20 @@
 
 one:
   nombre: MyString
-  procedimiento: MyText
-  tiempo_preparacion: 
-  porciones: 
-  id_usuario: 
+  pasos: MyText
+  tiempo_prep: MyString
+  integer: MyString
+  porciones: 1
+  usuario_id: 1
+  categoria_rec_id: MyString
+  integer: MyString
 
 two:
   nombre: MyString
-  procedimiento: MyText
-  tiempo_preparacion: 
-  porciones: 
-  id_usuario: 
+  pasos: MyText
+  tiempo_prep: MyString
+  integer: MyString
+  porciones: 1
+  usuario_id: 1
+  categoria_rec_id: MyString
+  integer: MyString

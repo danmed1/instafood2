@@ -18,7 +18,7 @@ class RecetaControllerTest < ActionController::TestCase
 
   test "should create recetum" do
     assert_difference('Recetum.count') do
-      post :create, recetum: { descripcion: @recetum.descripcion, fechaCreacion: @recetum.fechaCreacion, image: @recetum.image, nombre: @recetum.nombre, porciones: @recetum.porciones, procedimiento: @recetum.procedimiento, tiempoPrep: @recetum.tiempoPrep, tipo: @recetum.tipo }
+      post :create, recetum: { categoria_rec_id: @recetum.categoria_rec_id, integer: @recetum.integer, integer: @recetum.integer, nombre: @recetum.nombre, pasos: @recetum.pasos, porciones: @recetum.porciones, tiempo_prep: @recetum.tiempo_prep, usuario_id: @recetum.usuario_id }
     end
 
     assert_redirected_to recetum_path(assigns(:recetum))
@@ -35,7 +35,7 @@ class RecetaControllerTest < ActionController::TestCase
   end
 
   test "should update recetum" do
-    patch :update, id: @recetum, recetum: { descripcion: @recetum.descripcion, fechaCreacion: @recetum.fechaCreacion, image: @recetum.image, nombre: @recetum.nombre, porciones: @recetum.porciones, procedimiento: @recetum.procedimiento, tiempoPrep: @recetum.tiempoPrep, tipo: @recetum.tipo }
+    patch :update, id: @recetum, recetum: { categoria_rec_id: @recetum.categoria_rec_id, integer: @recetum.integer, integer: @recetum.integer, nombre: @recetum.nombre, pasos: @recetum.pasos, porciones: @recetum.porciones, tiempo_prep: @recetum.tiempo_prep, usuario_id: @recetum.usuario_id }
     assert_redirected_to recetum_path(assigns(:recetum))
   end
 

@@ -1,0 +1,2 @@
+module CategoriaRecsHelper
+end

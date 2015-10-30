@@ -4,7 +4,7 @@ class IngredientesController < ApplicationController
   # GET /ingredientes
   # GET /ingredientes.json
   def index
-    @ingrediente = Ingrediente.all
+    @ingredientes = Ingrediente.all
   end
 
   # GET /ingredientes/1
@@ -28,7 +28,7 @@ class IngredientesController < ApplicationController
 
     respond_to do |format|
       if @ingrediente.save
-        format.html { redirect_to ingredientes_path, notice: 'Ingrediente was successfully created.' }
+        format.html { redirect_to @ingrediente, notice: 'Ingrediente was successfully created.' }
         format.json { render :show, status: :created, location: @ingrediente }
       else
         format.html { render :new }
@@ -69,6 +69,6 @@ class IngredientesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def ingrediente_params
-      params.require(:ingrediente).permit(:nombre)
+      params.require(:ingrediente).permit(:nombre, :foto, :categoria)
     end
 end

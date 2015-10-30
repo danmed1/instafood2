@@ -80,7 +80,7 @@
         </div>
         <div id="id01">
             
-        Ya muestra todas las recetas.
+        Busca recetas con tus ingredientes disponibles
             
         </div>
     </div>
@@ -132,7 +132,7 @@
         $("#listaExcl option:selected").each(function(index, element) {
             $("#excluir").append("<option value='" + element.value + "'>" + element.text + "</option>");
             var x = $(this);
-            var index = arrIngredientesExcluidos.indexOf(x.val());
+            index = arrIngredientesExcluidos.indexOf(x.val());
             arrIngredientesExcluidos.splice(index, 1);
             $(this).remove();
         });
@@ -140,7 +140,7 @@
     
     $('#buscarRecetas').click(function () {
         document.getElementById("id01").innerHTML = " ";
-      var out="<% @recetas.each do |ingrediente| %><option><%=ingrediente.nombre %></option><% end %>";
+      var out="<% @recetas.each do |receta| %><option><%=receta.nombre %></option><% end %>";
      
       document.getElementById("id01").innerHTML = out;
     });

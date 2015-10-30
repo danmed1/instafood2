@@ -5,14 +5,18 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-categoria_rec.create(nombre:"Comida China")
-categoria_rec.create(nombre:"Comida Mexicana")
-categoria_rec.create(nombre:"Comida Francesa")
-categoria_rec.create(nombre:"Comida Tailandesa")
+CategoriaRec.create(nombre:"Comida China")
+CategoriaRec.create(nombre:"Comida Mexicana")
+CategoriaRec.create(nombre:"Comida Francesa")
+CategoriaRec.create(nombre:"Comida Tailandesa")
 
-categoria_ing.create(nombre:"Carnes")
-categoria_ing.create(nombre:"Aves")
-categoria_ing.create(nombre:"Frutas")
-categoria_ing.create(nombre:"Verduras")
+CategoriaIng.create(nombre:"Carnes")
+CategoriaIng.create(nombre:"Aves")
+CategoriaIng.create(nombre:"Frutas")
+CategoriaIng.create(nombre:"Verduras")
 
-
+RecetaIng.create(receta_id:2,ingrediente_id:1,cantidad:2,unidad:"Kg")
+RecetaIng.create(receta_id:2,ingrediente_id:2,cantidad:2,unidad:"Kg")
+RecetaIng.create(receta_id:2,ingrediente_id:3,cantidad:2,unidad:"Kg")
+RecetaIng.create(receta_id:3,ingrediente_id:4,cantidad:2,unidad:"Kg")
+RecetaIng.create(receta_id:2,ingrediente_id:5,cantidad:2,unidad:"Kg")

@@ -3,19 +3,17 @@
 one:
   email: MyString
   password: MyString
-  string: MyString
   alias: MyString
   nombre: MyString
-  appellido: MyString
+  apellido: MyString
   f_nac: 2015-10-27
   activo: false
 
 two:
   email: MyString
   password: MyString
-  string: MyString
   alias: MyString
   nombre: MyString
-  appellido: MyString
+  apellido: MyString
   f_nac: 2015-10-27
   activo: false

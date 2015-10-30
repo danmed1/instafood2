@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151027145832) do
+ActiveRecord::Schema.define(version: 20151027201002) do
 
   create_table "categoria_ings", force: :cascade do |t|
     t.string   "nombre"
@@ -27,20 +27,22 @@ ActiveRecord::Schema.define(version: 20151027145832) do
 
   create_table "ingredientes", force: :cascade do |t|
     t.string   "nombre"
-    t.string   "imagen"
-    t.integer  "categoria_ing_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.string   "foto"
+    t.integer  "categoria"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "receta", force: :cascade do |t|
     t.string   "nombre"
-    t.text     "procedimiento"
-    t.integer  "tiempo_preparacion"
+    t.text     "pasos"
+    t.string   "tiempo_prep"
+    t.string   "integer"
     t.integer  "porciones"
     t.integer  "usuario_id"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.string   "categoria_rec_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   create_table "receta_ings", force: :cascade do |t|
@@ -64,10 +66,9 @@ ActiveRecord::Schema.define(version: 20151027145832) do
   create_table "usuarios", force: :cascade do |t|
     t.string   "email"
     t.string   "password"
-    t.string   "string"
     t.string   "alias"
     t.string   "nombre"
-    t.string   "appellido"
+    t.string   "apellido"
     t.date     "f_nac"
     t.boolean  "activo"
     t.datetime "created_at", null: false

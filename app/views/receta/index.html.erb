@@ -6,13 +6,13 @@
   <thead>
     <tr>
       <th>Nombre</th>
-      <th>Descripcion</th>
+      <th>Pasos</th>
+      <th>Tiempo prep</th>
+      <th>Integer</th>
       <th>Porciones</th>
-      <th>Tiempoprep</th>
-      <th>Fechacreacion</th>
-      <th>Tipo</th>
-      <th>Image</th>
-      <th>Procedimiento</th>
+      <th>Usuario</th>
+      <th>Categoria rec</th>
+      <th>Integer</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -21,13 +21,13 @@
     <% @receta.each do |recetum| %>
       <tr>
         <td><%= recetum.nombre %></td>
-        <td><%= recetum.descripcion %></td>
+        <td><%= recetum.pasos %></td>
+        <td><%= recetum.tiempo_prep %></td>
+        <td><%= recetum.integer %></td>
         <td><%= recetum.porciones %></td>
-        <td><%= recetum.tiempoPrep %></td>
-        <td><%= recetum.fechaCreacion %></td>
-        <td><%= recetum.tipo %></td>
-        <td><%= recetum.image %></td>
-        <td><%= recetum.procedimiento %></td>
+        <td><%= recetum.usuario_id %></td>
+        <td><%= recetum.categoria_rec_id %></td>
+        <td><%= recetum.integer %></td>
         <td><%= link_to 'Show', recetum %></td>
         <td><%= link_to 'Edit', edit_recetum_path(recetum) %></td>
         <td><%= link_to 'Destroy', recetum, method: :delete, data: { confirm: 'Are you sure?' } %></td>

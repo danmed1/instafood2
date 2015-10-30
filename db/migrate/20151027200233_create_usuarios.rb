@@ -3,10 +3,9 @@ class CreateUsuarios < ActiveRecord::Migration
     create_table :usuarios do |t|
       t.string :email
       t.string :password
-      t.string :string
       t.string :alias
       t.string :nombre
-      t.string :appellido
+      t.string :apellido
       t.date :f_nac
       t.boolean :activo
 

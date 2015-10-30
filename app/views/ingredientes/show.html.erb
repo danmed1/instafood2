@@ -5,5 +5,15 @@
   <%= @ingrediente.nombre %>
 </p>
 
+<p>
+  <strong>Foto:</strong>
+  <%= @ingrediente.foto %>
+</p>
+
+<p>
+  <strong>Categoria:</strong>
+  <%= @ingrediente.categoria %>
+</p>
+
 <%= link_to 'Edit', edit_ingrediente_path(@ingrediente) %> |
 <%= link_to 'Back', ingredientes_path %>

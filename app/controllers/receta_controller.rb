@@ -3,7 +3,6 @@ class RecetaController < ApplicationController
 
   # GET /receta
   # GET /receta.json
-  
   def index
     @receta = Recetum.all
   end
@@ -29,7 +28,7 @@ class RecetaController < ApplicationController
 
     respond_to do |format|
       if @recetum.save
-        format.html { redirect_to verReceta_path, notice: 'Recetum was successfully created.' }
+        format.html { redirect_to @recetum, notice: 'Recetum was successfully created.' }
         format.json { render :show, status: :created, location: @recetum }
       else
         format.html { render :new }
@@ -66,10 +65,11 @@ class RecetaController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_recetum
       @recetum = Recetum.find(params[:id])
+      #@recetum = Recetum.all
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def recetum_params
-      params.require(:recetum).permit(:nombre, :descripcion, :porciones, :tiempoPrep, :fechaCreacion, :tipo, :image, :procedimiento)
+      params.require(:recetum).permit(:nombre, :pasos, :tiempo_prep, :integer, :porciones, :usuario_id, :categoria_rec_id, :integer)
     end
 end

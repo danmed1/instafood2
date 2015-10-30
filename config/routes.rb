@@ -2,6 +2,12 @@ Rails.application.routes.draw do
 
   resources :ingredientes
   resources :receta
+  resources :categoria_recs
+  resources :categoria_ings
+  resources :ingredientes
+  resources :usuarios
+  resources :ingredientes
+  resources :receta
   resources :receta
   resources :receta
   resources :receta
@@ -9,7 +15,7 @@ Rails.application.routes.draw do
   
   
   get 'cuenta/login', to: 'cuenta#login', as: :login
-  get 'cuenta/misrec', to: 'cuenta#misrec', as: :misrec
+  get 'receta/show', to: 'receta#show', as: :misrec
   
   get 'inicio/index', as: :inicio
   
@@ -20,11 +26,8 @@ Rails.application.routes.draw do
 
   get 'sugerencias/sugerencias', as: :sugerencias
 
-  get 'recetas/ver', to: 'recetas#ver', as: :verReceta
-  get 'recetas/altas', to: 'recetas#altas', as: :altasr
-  get 'recetas/bajas'
-  get 'recetas/actualizar'
   
+  get 'receta/new', to: 'receta#alta', as: :altasr
   get 'ingredientes/new'
 
   resources :usuarios

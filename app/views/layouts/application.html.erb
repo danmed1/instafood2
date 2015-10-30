@@ -26,61 +26,7 @@
                 </div>
                 <!-- Top Menu Items -->
                 <ul class="nav navbar-right top-nav">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
-                        <ul class="dropdown-menu message-dropdown">
-                            <li class="message-preview">
-                                <a href="#">
-                                    <div class="media">
-                                        <span class="pull-left">
-                                            <%= image_tag :class=> "media-object", :src=>"http://placehold.it/50x50" %>
-                                            
-                                        </span>
-                                        <div class="media-body">
-                                            <h5 class="media-heading"><strong>John Smith</strong>
-                                            </h5>
-                                            <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                            <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="message-preview">
-                                <a href="#">
-                                    <div class="media">
-                                        <span class="pull-left">
-                                            
-                                            <%= image_tag :class=> "media-object", :src=> "http://placehold.it/50x50" %>
-                                        </span>
-                                        <div class="media-body">
-                                            <h5 class="media-heading"><strong>John Smith</strong>
-                                            </h5>
-                                            <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                            <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="message-preview">
-                                <a href="#">
-                                    <div class="media">
-                                        <span class="pull-left">
-                                            <%= image_tag :class=> "media-object", :src=>"http://placehold.it/50x50" %>
-                                        </span>
-                                        <div class="media-body">
-                                            <h5 class="media-heading"><strong>John Smith</strong>
-                                            </h5>
-                                            <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                            <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="message-footer">
-                                <a href="#">Read All New Messages</a>
-                            </li>
-                        </ul>
-                    </li>
+                    
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
                         <ul class="dropdown-menu alert-dropdown">
@@ -112,11 +58,11 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
+                                <%= link_to "/usuarios/1", :class => 'uno' do %>
+                                    <i class="fa fa-fw fa-user"></i> Perfil
+                                <% end %>
                             </li>
-                            <li>
-                                <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
-                            </li>
+                            
                             <li>
                                 <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
                             </li>
@@ -140,7 +86,7 @@
                             <!--<a href="/sugerencias/sugerencias.html"><i class="fa fa-fw fa-folder"></i>Mis Ingredientes</a>-->
                         </li>
                         <li>
-                            <%= link_to "Añadir Ingrediente", :ingredientes %>
+                            <%= link_to 'Añade ingredientes', new_ingrediente_path %>
                         </li>
                         <li>
                             <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-paperclip"></i> Recetas <i class="fa fa-fw fa-caret-down"></i></a>
@@ -149,9 +95,11 @@
                                     <%= link_to "Subir receta", :altasr %>
                                 </li>
                                 <li>
-                                    <%= link_to "Mis recetas", :misrec %>
+                                    <%= link_to "Mis recetas", :receta %>
                                 </li>
-                                
+                                <li>
+                                    <%= link_to "Mis favoritas", :receta %>
+                                </li>
                             </ul>
                         </li>
 
