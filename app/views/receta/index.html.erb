@@ -1,40 +1,31 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Listing Receta</h1>
+<h1>Recetas</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Nombre</th>
-      <th>Pasos</th>
-      <th>Tiempo prep</th>
-      <th>Integer</th>
-      <th>Porciones</th>
-      <th>Usuario</th>
-      <th>Categoria rec</th>
-      <th>Integer</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @receta.each do |recetum| %>
-      <tr>
-        <td><%= recetum.nombre %></td>
-        <td><%= recetum.pasos %></td>
-        <td><%= recetum.tiempo_prep %></td>
-        <td><%= recetum.integer %></td>
-        <td><%= recetum.porciones %></td>
-        <td><%= recetum.usuario_id %></td>
-        <td><%= recetum.categoria_rec_id %></td>
-        <td><%= recetum.integer %></td>
-        <td><%= link_to 'Show', recetum %></td>
-        <td><%= link_to 'Edit', edit_recetum_path(recetum) %></td>
-        <td><%= link_to 'Destroy', recetum, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+    
+    <div class="row">
+      <div class="col-lg-12">
+        <% @receta.each do |recetum| %>
+       <div class="col-lg-3 col-md-6">
+          <div class="panel panel-primary">
+            
+              <div class="panel-heading panel-food">
+                <%= link_to image_tag(recetum.foto, :border => 0, :style=>"width:100%; height:100%; z-index:-40"), recetum %>
+                  <div class="row">
+                    <div class="col-xs-3"></div>
+                      <div class="col-xs-9 text-right">
+                        <div class="med"><%= link_to recetum.nombre, recetum %></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
     <% end %>
-  </tbody>
-</table>
+    </div>
+    </div>
+ 
+     
+    
 
 <br>
 

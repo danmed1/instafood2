@@ -1,3 +1,135 @@
+<script>
+       $(document).ready(function () {
+
+                $(".frm").hide("fast");
+                $("#sf1").show("slow");
+
+                // Binding next button on first step
+                $(".open1").click(function () {
+                    if ($("#recipeName").val()) {
+                        if ($("#addedIngredients option").size()) {
+                            $(".frm").hide("fast");
+                            $("#sf2").show("slow");
+                        } else {
+                            alert("Ingresa al menos un Ingrediente");
+                        }
+                    } else {
+                        alert("Ingresa un Nombre");
+                    }
+
+                });
+                
+                $('#recetasubmitbtn').click(function(event){
+                    
+                    
+                    
+                });
+       
+
+                // Binding next button on second step
+                $(".open2").click(function () {
+                    if ($("#recetum_pasos").val().length > 0) {
+                        //Jalar todo al form del paso 3
+                        $("#nombreCon").val($("#recipeName").val());
+                        $("#ingredientsCon").empty();
+                        $("#addedIngredients option").each(function (index, element) {
+                            $("#ingredientsCon").append("<tr><td>" + element.text + "</td>\n\
+                            <td><input class=\"form-control cantholder\" type=\"number\" id=\"can" + index + "\"/></td>\n\
+                            <td><select class=\"form-control uniholder \" id=\"uni" + index + "\">\n\
+                                    <option value=\"kg\">kg</option>\n\
+                                    <option value=\"g\">g</option>\n\
+                                    <option value=\"lt\">lt</option>\n\
+                                </select></td></tr>");
+                        });
+
+                        $("#proceduresCon").val($("#recetum_pasos").val());
+                       
+                        //esconde los otros
+                        $(".frm").hide("fast");
+                        $("#sf3").show("slow");
+                    } else {
+                        alert("Ingresa Procedimiento");
+                    }
+                });
+
+                // Binding back button on second step
+                $(".back2").click(function () {
+                    $(".frm").hide("fast");
+                    $("#sf1").show("slow");
+                });
+
+                // Binding back button on third step
+                $(".back3").click(function () {
+                    $("#ingredientsCon").empty();
+                    $(".frm").hide("fast");
+                    $("#sf2").show("slow");
+                });
+                
+                $(".back4").click(function () {
+                    $(".frm").hide("fast");
+                    $("#sf3").show("slow");
+                });
+
+                $(".open3").click(function () {
+                    if ($("#descriptionCon").val()) {
+                        if ($("#porcionesCon").val()) {
+                            if ($("#tiempoCon").val() && $("#imageCon").val()) {
+                                // used delay form submission for a seccond and show a loader image
+                                var ingsJson= [];
+                    $("#addedIngredients option").each(function (index, element) {
+                       ingsJson.push({id:+$(element).attr('value'),cantidad:$('#can'+index).val(),unidad:$('#uni'+index).val()});
+                    
+                    });
+                    $('#recetum_ingredientes').val(JSON.stringify(ingsJson));
+                                
+                                $(".frm").hide("fast");
+                                $("#sf4").show("slow");
+                                
+                                // Remove this if you are not using ajax method for submitting values
+                                return false;
+                            } else {
+                                alert("Ingresa un Tiempo de preparación e imagen");
+                            }
+                        } else {
+                            alert("Ingresa Cuantas Porciones se obtienen");
+                        }
+                    } else {
+                        alert("Ingresa una Descripción");
+                    }
+                });
+
+                function optionExists(sel, val) {
+                    return $(sel + " option[value='" + val + "']").length !== 0;
+                }
+
+                //Paso 1: Anadir y remover de las listas              
+                $('#anade').click(function () {
+                    //$("#addedIngredients").empty();
+                    $("#allIngredients option:selected").each(function (index, element) {
+                        if (!optionExists("#addedIngredients", element.value)) {                            
+                            $("#addedIngredients").append("<option value='" + element.value + "'>" + element.text + "</option>");
+                            $(this).remove();
+                        }
+                    });
+                    $("option:selected").removeAttr("selected");
+                    //AÑADIR SCRIPT MULTIPLE SELECT
+                });
+
+                $('#quita').click(function () {
+                    $("#addedIngredients option:selected").each(function (index, element) {
+                        $("#allIngredients").append("<option value='" + element.value + "'>" + element.text + "</option>");
+                        $(this).remove();
+                    });
+
+                });
+
+            });
+  </script>
+ 
+
+  
+    
+
 <%= form_for(@recetum) do |f| %>
                                         <br />
   <% if @recetum.errors.any? %>
@@ -14,187 +146,174 @@
   
 <div class="row">
   <div class="col-lg-12 col-md-12">
-    <label>Nombre de la receta:</label>
-      <%= f.text_field :nombre %>
-    </div>
-    
+        <div id="sf1" class="frm">
+    <fieldset>
+                                        <legend>Paso 1 de 3 | Selecciona tus ingredientes</legend>
 
-  <div class="field">
-    <%= f.label :pasos %><br>
-    <%= f.text_area :pasos %>
-  </div>
-  <div class="field">
-    <%= f.label :tiempo_prep %><br>
-    <%= f.text_field :tiempo_prep %>
-  </div>
-  <div class="field">
-    <%= f.label :porciones %><br>
-    <%= f.number_field :porciones %>
-  </div>
-  
-  <div class="field">
-    <%= f.label :usuario_id %><br>
-    <%= f.number_field :usuario_id %>
-  </div>
-  <div class="field">
-    <%= f.label :categoria_rec_id %><br>
-    <%= f.text_field :categoria_rec_id %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-  </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-12">
+                                                <label>Nombre de la receta:</label>
+                                                <%= f.text_field :nombre, :class=>"form-control", :id=>"recipeName", :placeholder=>"Nombre de receta" %>
+                                                <br />
+                                            </div>
+                                            <div class="col-lg-5">
+
+                                                <select class="form-control" id="allIngredients" multiple size="10">
+                                                    <% if(@ingredientes!=nil)%>
+                                                    <% @ingredientes.each do |ingrediente| %>
+                                                        <option value=<%=ingrediente.id %>>
+                                                            <%=ingrediente.nombre %>
+                                                        </option>
+                                                        <% end %>
+                                                        <% end %>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <center>
+                                                    <button type="button" class="btn btn-success" id="anade">&gt;&gt;</button><br /><br />
+                                                    <button type="button" class="btn btn-danger" id="quita">&lt;&lt;</button>
+                                                </center>                                                
+                                            </div>
+                                            <div class="col-lg-5">
+                                                <select class="form-control" id="addedIngredients" multiple size="10">
+                                                    
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-lg-10 col-lg-offset-2">
+                                                <!-- open1 is given in the class that is binded with the click event -->
+                                                <br />
+                                                <button class="btn btn-primary open1" type="button">Next <span class="fa fa-arrow-right"></span></button> 
+                                            </div>
+                                        </div>
+
+                                    </fieldset>
+                                </div>
+
+                                <!-- id will be unique, but class name will be same -->
+                                <div id="sf2" class="frm">
+
+                                    <fieldset>
+                                        <legend>Paso 2 de 3 | Ingresa los pasos</legend>
+
+                                        <div class="form-group">
+                                            <label class="col-lg-12 control-label" for="uemail">Procedimiento: </label>
+                                            <div class="col-lg-12">
+                                                <div id="proceds"></div>
+                                            </div>
+                                            <div class="col-lg-8">
+                                                <%= f.text_area :pasos, :class=>"form-control" %>
+                                            </div>
+                                        </div>
+
+                                        <div class="clearfix" style="height: 10px;clear: both;"></div>
+
+                                        <div class="form-group">
+                                            <div class="col-lg-10 col-lg-offset-2">
+                                                <!-- back2 unique class name  -->
+                                                <button class="btn btn-warning back2" type="button"><span class="fa fa-arrow-left"></span> Back</button> 
+                                                <!-- open2 unique class name -->
+                                                <button class="btn btn-primary open2" type="button">Next <span class="fa fa-arrow-right"></span></button> 
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+
+                                <!-- id will be unique, but class name will be same -->
+                                <div id="sf3" class="frm">
+
+                                    <fieldset>
+                                        <legend>Paso 3 de 3 | Descripción y confirmación</legend>
+
+                                        <div class="form-group">
+                                            <label class="col-lg-2 control-label" for="upass1">Receta: </label>
+                                            <div class="col-lg-6">
+                                                <input type="text" id="nombreCon" class="form-control" autocomplete="off" readonly>
+                                            </div>
+                                        </div><br />
+
+                                        <div class="form-group">
+                                            <div class="col-lg-6">
+                                                <h4>Ingredientes:</h4>
+                                                <table id="ingredientsCon">
+                                                    <thead>
+                                                        <tr>
+                                                            <td>Ingrediente</td>
+                                                            <td>Cantidad</td>
+                                                            <td>Unidad</td>
+                                                        </tr>
+
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label>Descripción:</label>
+                                                
+                                                <%= f.text_field :descripcion, :class=>"form-control",:id=>"descriptionCon"%>
+                                                <br />
+                                                <label>Porciones:</label>
+                                                <%= f.number_field :porciones, :class=>"form-control", :id=>"porcionesCon" %>
+                                                <br />
+                                                <label>Tiempo de preparación:</label>
+                                                <%= f.number_field :tiempo_prep, :class=>"form-control", :id=>"tiempoCon" %>
+                                            </div>
+                                        </div><br />
+
+                                        <div class="form-group">
+                                            <div class="col-lg-6">
+                                                <h4>Procedimientos:</h4>
+                                                <textarea id="proceduresCon" class="form-control"></textarea>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label>Tipo de alimento:</label>
+                                                 <%if( @categorias!=nil)%>
+                                                <%= f.select(:categoria_rec_id) do %>
+                                                  <% @categorias.each do |c| -%>
+                                                    <%= content_tag(:option, c.nombre, value: c.id) %>
+                                                  <% end %>
+                                                <% end %>
+                                                <% end %>
+                                                
+                                                 
+                                                <br />
+                                                <label>Imagen:</label>
+                                                 <%= f.file_field :foto, id:'imageCon' %>
+                                            </div>
+                                        </div><br />
+
+
+                                        <div class="form-group">
+                                            <div class="col-lg-10 col-lg-offset-2">
+                                                <!-- Unique class name -->
+                                                <button class="btn btn-warning back3" type="button"><span class="fa fa-arrow-left"></span> Back</button> 
+                                                <!-- Unique class name -->
+                                                <button class="btn btn-primary open3" type="button">Next <span class="fa fa-arrow-right"></span></button> 
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                              </div>
+                              <div id="sf4" class="frm">
+                                  <fieldset>
+                                        <legend>Guardar</legend>
+                                        <div class="form-group">
+                                            <div class="col-lg-10 col-lg-offset-2">
+                                                <!-- Unique class name -->
+                                                <button class="btn btn-warning back4" type="button"><span class="fa fa-arrow-left"></span> Back</button> 
+                                                <!-- Unique class name -->
+                                                <%= f.submit "Guardar", :class=>"btn btn-primary", id:'recetasubmitbtn' %>
+                                                <%=f.text_field :ingredientes, class:"hidden"%>
+                                            </div>
+                                        </div>
+                                        
+                                    </fieldset>
+                              </div>
+                          </div>
   </div
 <% end %>
 
 
-<div id="sf1" class="frm">
-
-                        <fieldset>
-                            <legend>Paso 1 de 3 | Selecciona tus ingredientes</legend>
-
-                            <div class="form-group">
-                                <div class="col-lg-12">
-                                    <label>Nombre de la receta:</label>
-                                    
-                                        <br />
-                                </div>
-                                <div class="col-lg-5">
-
-                                    <select class="form-control" id="allIngredients" multiple size="10">
-                                    </select>
-                                </div>
-                                <div class="col-lg-2">
-                                    <center>
-                                        <button type="button" class="btn btn-success" id="anade">&gt;&gt;</button>
-                                        <br />
-                                        <br />
-                                        <button type="button" class="btn btn-danger" id="quita">&lt;&lt;</button>
-                                    </center>
-                                </div>
-                                <div class="col-lg-5">
-                                    <select class="form-control" id="addedIngredients" multiple size="10">
-
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-lg-10 col-lg-offset-2">
-                                    <!-- open1 is given in the class that is binded with the click event -->
-                                    <br />
-                                    <button class="btn btn-primary open1" type="button">Next <span class="fa fa-arrow-right"></span></button>
-                                </div>
-                            </div>
-
-                        </fieldset>
-                    </div>
-
-                    <!-- id will be unique, but class name will be same -->
-                    <div id="sf2" class="frm">
-
-                        <fieldset>
-                            <legend>Paso 2 de 3 | Ingresa los pasos</legend>
-
-                            <div class="form-group">
-                                <label class="col-lg-12 control-label" for="uemail">Procedimiento: </label>
-                                <div class="col-lg-12">
-                                    <div id="proceds"></div>
-                                </div>
-                                <div class="col-lg-8">
-                                    
-                                </div>
-                                <div class="col-lg-4">
-                                    <button class="btn btn-info" id="addProcedure" type="button"> Añade Procedimiento</button>
-                                </div>
-                            </div>
-
-                            <div class="clearfix" style="height: 10px;clear: both;"></div>
-
-                            <div class="form-group">
-                                <div class="col-lg-10 col-lg-offset-2">
-                                    <!-- back2 unique class name  -->
-                                    <button class="btn btn-warning back2" type="button"><span class="fa fa-arrow-left"></span> Back</button>
-                                    <!-- open2 unique class name -->
-                                    <button class="btn btn-primary open2" type="button">Next <span class="fa fa-arrow-right"></span></button>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </div>
-
-                    <!-- id will be unique, but class name will be same -->
-                    <div id="sf3" class="frm">
-
-                        <fieldset>
-                            <legend>Paso 3 de 3 | Descripción y confirmación</legend>
-
-                            
-                            <br />
-
-                            <div class="form-group">
-                                <div class="col-lg-6">
-                                    <h4>Ingredientes:</h4>
-                                    <table id="ingredientsCon">
-                                        <thead>
-                                            <tr>
-                                                <td>Ingrediente</td>
-                                                <td>Cantidad</td>
-                                                <td>Unidad</td>
-                                            </tr>
-
-                                        </thead>
-                                        <tbody></tbody>
-                                    </table>
-                                </div>
-                                <div class="col-lg-6">
-                                    <label>Descripción:</label>
-                                    
-                                    <br />
-                                    <label>Porciones:</label>
-                                    
-                                    <br />
-                                    <label>Tiempo de preparación:</label>
-                                    
-                                </div>
-                            </div>
-                            <br />
-
-                            <div class="form-group">
-                                <div class="col-lg-6">
-                                    <h4>Procedimientos:</h4>
-                                    <ol id="proceduresCon"></ol>
-                                </div>
-                                <div class="col-lg-6">
-                                    <label>Tipo de alimento:</label>
-                                    
-                                    
-                                    
-                                    
-                                    <select id="tipoCon" class="form-control">
-                                        <option value="desayuno">desayuno</option>
-                                        <option value="comida">comida</option>
-                                        <option value="cena">cena</option>
-                                        <option value="snack">snack</option>
-                                    </select>
-                                    
-                                    <br />
-                                    
-                                    <br />
-                                    <label>Imagen:</label>
-                                    
-
-                                </div>
-                            </div>
-                            <br />
-
-
-                            <div class="form-group">
-                                <div class="col-lg-10 col-lg-offset-2">
-                                    <!-- Unique class name -->
-                                    <button class="btn btn-warning back3" type="button"><span class="fa fa-arrow-left"></span> Back</button>
-                                    <!-- Unique class name -->
-                                    
-                                </div>
-                            </div>
-                        </fieldset>
-                    </div>
+  
+  

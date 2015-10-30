@@ -1,4 +1,7 @@
 class Ingrediente < ActiveRecord::Base
+    #pruebas many to many
+    attr_accessible :nombre
+    #fin
     mount_uploader :foto, AttachmentUploader
     validates :nombre, presence: true, uniqueness: true, length: { maximum: 40 }
     belongs_to:categoria_ing

@@ -7,7 +7,20 @@ class Usuario < ActiveRecord::Base
     validates :password,presence:{message:"La contraseña es un campo necesario"},
     confirmation:{message:"Las contraseñas no coinciden"}
     validates :password_confirmation, presence:{message:"Es necesario confirmar la contraseña"}
+    validates :alias, presence:{message:'El nombre es un campo necesario'}
+    validates :nombre, presence:{message:'El nombre es un campo necesario'}
+    validates :apellido, presence:{message:'El nombre es un campo necesario'}
     has_many :receta_usrs
     has_many :recetas, through: :receta_usrs
+    
+    def authenticate( password)
+        user = Usuario
+    if user.find_by_password(password)#match_password(password)
+        return true
+    else
+        return false
+    end
+    end
+    
 end
 

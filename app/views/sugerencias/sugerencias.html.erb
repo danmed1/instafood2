@@ -12,7 +12,7 @@
             <label>Incluir ingredientes</label>
             <select class="form-control" id="incluir" multiple size="5">
                 <% @ingredientes.each do |ingrediente| %>
-                    <option>
+                    <option value="<%=ingrediente.id%>">
                         <%=ingrediente.nombre %>
                     </option>
                     <% end %>
@@ -31,7 +31,6 @@
         <div class="col-lg-5">
             <label>Ingredientes incluidos</label>
             <select class="form-control" id="listaIncluidos" multiple size="5">
-
             </select>
         </div>
     </div>
@@ -40,7 +39,7 @@
             <label>Filtrar ingredientes</label>
             <select class="form-control" id="excluir" multiple size="5">
                 <% @ingredientes.each do |ingrediente| %>
-                    <option>
+                    <option value="<%=ingrediente.id%>">
                         <%=ingrediente.nombre %>
                     </option>
                     <% end %>
@@ -90,7 +89,12 @@
     var n = document.getElementById("incluir");
     var m = document.getElementById("excluir");
     var arrIngredientesIncluidos = [];
+    var arrRecetasTodas = [];
+    var arrRecetasTodasID = [];
+    var arrRecetasIngTodas = [];
+    var arrRecetasIngTodasID = [];
     var arrIngredientesExcluidos = [];
+    var arrIngredientesID = [];
 
     function optionExists(sel, val) {
         return $(sel + " option[value='" + val + "']").length !== 0;
@@ -139,9 +143,70 @@
     
     $('#buscarRecetas').click(function () {
         document.getElementById("id01").innerHTML = " ";
-      var out="<% @recetas.each do |receta| %><option><%=receta.nombre %></option><% end %>";
-     
-      document.getElementById("id01").innerHTML = out;
+        arrRecetasTodas = "<% @recetas.each do |receta| %><%= receta.foto %>"+", " +"<% end %>";
+        arrRecetasTodasID = "<% @recetas.each do |receta| %><%= receta.id %>"+", " +"<% end %>";
+        arrRecetasIngTodas = "<% @recetaIng.each do |receta| %><%=receta.ingrediente_id %>"+"," +  "<% end %>";
+        arrRecetasIngTodasID = "<% @recetaIng.each do |receta| %><%=receta.receta_id %>"+"," +  "<% end %>";
+        arrIngredientesID = "<% @ingredientes.each do |ing| %><%=ing.id %>"+"," +  "<% end %>";
+        
+        var arrRes= [];
+        var arrRes2= [];
+        var arrRes3= [];
+        var arrRes4= [];
+        var arrRes5= [];
+        
+        arrRes=arrRecetasTodas.split(',');
+        arrRes.pop(-1);
+        
+        arrRes2=arrRecetasTodasID.split(',');
+        arrRes2.pop(-1);
+        
+        arrRes3=arrRecetasIngTodas.split(',');
+        arrRes3.pop(-1);
+        
+        arrRes4=arrRecetasIngTodasID.split(',');
+        arrRes4.pop(-1);
+        
+        arrRes5=arrIngredientesID.split(',');
+        arrRes5.pop(-1);
+        
+        var i,j,k;        
+        
+        var recetasEncontradas = [];
+        var recetasExcluidas = [];
+        var idEncontrados = [];
+        var contadorIngredientes = [];
+        var idExcluidos = [];
+        
+        if(arrIngredientesIncluidos.length==0){
+            alert("Agrega ingredientes a la lista")
+        }else{
+            for (i = 0; i < arrIngredientesIncluidos.length; i++) {
+                //contadorIngredientes[i] = 0;
+                for (j = 0; j < arrRes3.length; j++) {
+                    if ((arrIngredientesIncluidos[i]) == arrRes3[j]) {
+                        idEncontrados.push(arrRes4[j]);
+                        for(k=0;k<arrRes2.length;k++){
+                            if((arrRes4[j])==(arrRes2[k])){
+                                recetasEncontradas.push(arrRes[k]);        
+                            }
+                        }
+                        //contadorIngredientes[i] += 1;
+                    }
+                }
+            }
+            var out="";
+        for (i=0;i<idEncontrados.length;i++){
+            out = out +'<a href="https://instafood-rhombeus.c9.io/receta/' + idEncontrados[i] + '"><img src='+recetasEncontradas[i]+' value='+ arrRes2[i]+' style="width:300px"/></a>';    
+        }
+        document.getElementById("id01").innerHTML = out;
+        }
+        // alert(arrIngredientesIncluidos);
+        // alert(arrRecetasTodas);
+        // alert(arrRecetasIngTodas);
+        
+        
+      
     });
 </script>
 

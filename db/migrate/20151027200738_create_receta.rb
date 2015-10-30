@@ -3,12 +3,12 @@ class CreateReceta < ActiveRecord::Migration
     create_table :receta do |t|
       t.string :nombre
       t.text :pasos
-      t.string :tiempo_prep
-      t.string :integer
+      t.integer :tiempo_prep
       t.integer :porciones
       t.integer :usuario_id
-      t.string :categoria_rec_id
-      t.string :integer
+      t.string :foto
+      t.string :descripcion
+      t.integer :categoria_rec_id
 
       t.timestamps null: false
     end

@@ -5,15 +5,11 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-CategoriaRec.create(nombre:"Comida China")
-CategoriaRec.create(nombre:"Comida Mexicana")
-CategoriaRec.create(nombre:"Comida Francesa")
-CategoriaRec.create(nombre:"Comida Tailandesa")
-
-CategoriaIng.create(nombre:"Carnes")
-CategoriaIng.create(nombre:"Aves")
-CategoriaIng.create(nombre:"Frutas")
-CategoriaIng.create(nombre:"Verduras")
+CategoriaRec.create(nombre:"Desayuno")
+CategoriaRec.create(nombre:"Comida")
+CategoriaRec.create(nombre:"Cena")
+CategoriaRec.create(nombre:"Snack")
+Usuario.create(email:"admin@instafood.com",alias:"Administrador",nombre:"Juan Paco Pedro",apellido:"De la Mar",f_nac:"01-01-1900",activo:true,password:"test")
 
 RecetaIng.create(receta_id:2,ingrediente_id:1,cantidad:2,unidad:"Kg")
 RecetaIng.create(receta_id:2,ingrediente_id:2,cantidad:2,unidad:"Kg")

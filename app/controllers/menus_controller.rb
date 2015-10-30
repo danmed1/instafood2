@@ -1,13 +1,22 @@
 class MenusController < ApplicationController
-  def desayunos
+  
+  def desayuno
+      @recetas =Recetum.where(categoria_rec_id:1).to_a;
+      
   end
 
-  def comidas
+  def comida
+      @recetasCom = Recetum.where(categoria_rec_id:2).to_a;
+     
   end
 
-  def cenas
+  def cena
+      @recetasCen = Recetum.where(categoria_rec_id:3).to_a;
+      
   end
   
-  def snacks
+  def snack
+      @recetasSna = Recetum.where(categoria_rec_id:4).to_a;
+      
   end
 end

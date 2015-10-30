@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'sessions/new'
+
   resources :ingredientes
   resources :receta
   resources :categoria_recs
@@ -14,7 +16,12 @@ Rails.application.routes.draw do
   resources :receta
   
   get 'cuenta/login', to: 'cuenta#login', as: :login
+  get 'cuenta/misfav', to: 'cuenta#misfav', as: :misfav
+  get 'cuenta/misrec', to: 'cuenta#misrec', as: :misrecetas
   get 'receta/show', to: 'receta#show', as: :misrec
+  get '/receta/busqueda/:search', to: 'receta#busqueda', as: :busca
+  
+  get '/receta/addfav/:id', to: 'receta#addfav', :as => "favadd"
   
   get 'inicio/index', as: :inicio
   
@@ -24,14 +31,18 @@ Rails.application.routes.draw do
   get 'menus/snacks', to: 'menus#snack', as: :snacks
 
   get 'sugerencias/sugerencias', as: :sugerencias
-
+  
+  get    'signup'  => 'usuarios#new'
+  get    'loginPrueba'   => 'sessions#new'
+  post   'loginPrueba'   => 'sessions#create'
+  delete 'logout'  => 'sessions#destroy'
   
   get 'receta/new', to: 'receta#alta', as: :altasr
   get 'ingredientes/new'
 
   resources :usuarios
 
-  root 'cuenta#login'
+  root 'sessions#new'
 
 
   

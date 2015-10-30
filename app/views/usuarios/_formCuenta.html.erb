@@ -1,3 +1,92 @@
+<script>
+  $('document').ready(function(){
+     $('#emailerror').hide();
+     $('#emailconfirmerror').hide();
+     $('#passerror').hide();
+     $('#passconfirmerror').hide();
+     $('#aliaserror').hide();
+     $('#nombreerror').hide();
+     $('#apellidoerror').hide();
+     $('#nuevacuentasubmit').attr("disabled", "disabled");
+    
+     $('#usuario_email').on('input',function(){
+       if(isValidEmailAddress($('#usuario_email').val())){
+        $('#emailfield').removeClass('form-group has-error');
+        $('#emailfield').addClass('form-group has-success');
+        $('#emailerror').hide();
+        
+      }else{
+         $('#emailfield').addClass('form-group has-error');
+         $('#emailerror').show();
+      }
+      validateFields()
+     });
+     $('#usuario_email_confirmation').on('input',function(){if(emailsMatch()){
+         $('#emailconfirmfield').removeClass('form-group has-error');
+        $('#emailconfirmfield').addClass('form-group has-success');
+        $('#emailconfirmerror').hide();
+      }else{
+         $('#emailconfirmfield').addClass('form-group has-error');
+          $('#emailconfirmerror').show();
+      }
+       validateFields()
+     });
+     $('#usuario_password_confirmation').on('input',function(){
+       if(passwordsMatch()){
+         $('#passfields').removeClass('form-group has-error');
+        $('#passfields').addClass('form-group has-success');
+        $('#passconfirmerror').hide();
+      }else{
+         $('#passfields').addClass('form-group has-error');
+          $('#passconfirmerror').show();
+      }
+      validateFields()
+     });
+     $('#usuario_password').on('input',function(){
+       validateFields()
+     });
+     $('#usuario_nombre').on('input',function(){if($('#usuario_nombre').val().length != 0){
+        $('#nombreerror').hide();
+      }else{
+        $('#nombreerror').show();
+      }
+       validateFields();
+     });
+     $('#usuario_apellido').on('input',function(){if($('#usuario_apellido').val().length != 0){
+        $('#apellidoerror').hide();
+      }else{
+        $('#apellidoerror').show();
+      }
+       validateFields();
+     });
+     $('#usuario_alias').on('input',function(){if($('#usuario_alias').val().length != 0){
+        $('#aliaserror').hide();
+      }else{
+        $('#aliaserror').show();
+      }
+       validateFields();
+     });
+  });
+  
+  function emailsMatch(){
+    return $('#usuario_email_confirmation').val()==$('#usuario_email').val();
+  }
+  function passwordsMatch(){
+    return $('#usuario_password_confirmation').val()==$('#usuario_password').val();
+  }
+  function validateFields(){
+    if(emailsMatch() && passwordsMatch() && $('#usuario_alias').val().length != 0 && $('#usuario_nombre').val().length != 0 && $('#usuario_apellido').val().length != 0 && isValidEmailAddress($('#usuario_email').val())){
+      $('#nuevacuentasubmit').removeAttr("disabled");
+    }else{
+      $('#nuevacuentasubmit').attr("disabled", "disabled");
+    }
+  }
+  function isValidEmailAddress(emailAddress) {
+    var pattern = /\S+\@\S+\.\S*/;
+    return pattern.test(emailAddress);
+};//http://stackoverflow.com/questions/2855865/jquery-regex-validation-of-e-mail-address
+</script>
+
 <div class="col-lg-6">
 
         <%= form_for(@usuario) do |f| %>
@@ -12,35 +101,58 @@
       </ul>
     </div>
   <% end %>
-
-
+  <div class='form-group'>
+    <div id='emailfield'> 
     <%= f.label :Correo_electrónico %>
     <%= f.text_field :email, class: 'form-control', placeholder: 'ejemplo@ejemplo.com' %>
+      <div class="alert alert-danger" id='emailerror'>
+                    <strong>Oh snap!</strong> El formato del correo electronico no es valido
+      </div>
+    </div>
+    <div id='emailconfirmfield'>
     <%= f.label :Confirmar_correo_electrónico %>
     <%= f.text_field :email_confirmation, class: 'form-control', placeholder: 'ejemplo@ejemplo.com' %>
-
-
+     <div class="alert alert-danger" id='emailconfirmerror'>
+                    <strong>Oh snap!</strong> Los campos de correo no coinciden
+      </div>
+    </div>
+</div>
+  <div class='form-group' id='passfields'>
     <%= f.label :Contraseña %>
     <%= f.password_field :password, class: 'form-control', placeholder: '*********' %>
+    <div class="alert alert-danger" id='passerror'>
+                    <strong>Oh snap!</strong> La contraseña es un campo necesario
+      </div>
         <%= f.label :Confirmar_contraseña %>
     <%= f.password_field :password_confirmation, class: 'form-control', placeholder: '*********' %>
-
-
+    <div class="alert alert-danger" id='passconfirmerror'>
+                    <strong>Oh snap!</strong> Las contraseñas no coinciden
+      </div>
+  </div>
+  <div class='form-group'>
     <%= f.label :alias %>
-    <%= f.text_field :alias, class: 'form-control', placeholder: '*********' %>
-
+    <%= f.text_field :alias, class: 'form-control', placeholder: 'EL nombre que veran los otros usuarios' %>
+      <div class="alert alert-danger" id='aliaserror'>
+                    <strong>Oh snap!</strong> El alias es un campo necesario
+      </div>
     <%= f.label :nombre %>
-    <%= f.text_field :nombre, class: 'form-control', placeholder: '*********' %>
-
+    <%= f.text_field :nombre, class: 'form-control', placeholder: 'Juan' %>
+      <div class="alert alert-danger" id='nombreerror'>
+                    <strong>Oh snap!</strong> El nombre es un campo necesario
+      </div>
     <%= f.label :apellido %>
-    <%= f.text_field :apellido, class: 'form-control', placeholder: '*********' %>
-
+    <%= f.text_field :apellido, class: 'form-control', placeholder: 'Perez' %>
+      <div class="alert alert-danger" id='apellidoerror'>
+                    <strong>Oh snap!</strong> El apellido es un campo necesario
+      </div>
+  </div>
+  <div class='form-group'>
     <%= f.label :f_nac %><br/>
     <%= f.date_select :f_nac, class: 'form-control' %>
-
+  </div>
 
 <div>
-    <%= f.submit 'Crear cuenta', class: 'btn btn-lg btn-primary' %>
+    <%= f.submit 'Crear cuenta', class: 'btn btn-lg btn-primary', id: 'nuevacuentasubmit' %>
 </div>
 <% end %>
 
