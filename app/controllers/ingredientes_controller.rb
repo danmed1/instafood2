@@ -4,7 +4,7 @@ class IngredientesController < ApplicationController
   # GET /ingredientes
   # GET /ingredientes.json
   def index
-    @ingredientes = Ingrediente.all
+    @ingredientes = Ingrediente.order('ingredientes.nombre ASC').all
   end
 
   # GET /ingredientes/1

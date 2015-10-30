@@ -11,19 +11,31 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :nombre %><br>
-    <%= f.text_field :nombre %>
+  <div class="row">
+    <div class="col-lg-5">
+      <label>Nombre:</label>
+      <%= f.text_field :nombre,:class=>"form-control" %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :'Foto URL'%><br>
-    <%= f.text_field :foto %>
+  </br>
+  <div class="row">
+    <div class="col-lg-5">
+      <label>Imagen:</label>
+      <%= f.file_field :foto %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :'Categoría' %><br>
-    <%= f.number_field :categoria %>
+  </br>
+  <div class="row">
+    <div class="col-lg-2">
+      <label>Categoría:</label>
+      <%= f.number_field :categoria,:class=>"form-control" %>
+    </div>
   </div>
-  <div class="actions">
-    <%= f.submit %>
+  </br>
+  <div class="row">
+    <div class="col-lg-2">
+      <%= f.submit "Guardar",:class=>"btn btn-primary"%>
+    </div>
   </div>
+
 <% end %>

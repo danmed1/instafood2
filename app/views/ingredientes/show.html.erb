@@ -7,7 +7,7 @@
 
 <p>
   <strong>Foto:</strong>
-  <%= @ingrediente.foto %>
+  <%= image_tag @ingrediente.foto, :style=>"width:300px" %>
 </p>
 
 <p>
@@ -15,5 +15,5 @@
   <%= @ingrediente.categoria %>
 </p>
 
-<%= link_to 'Edit', edit_ingrediente_path(@ingrediente) %> |
-<%= link_to 'Back', ingredientes_path %>
+<%= link_to 'Editar', edit_ingrediente_path(@ingrediente) %> &nbsp;
+<%= link_to 'Ver lista', ingredientes_path %>
