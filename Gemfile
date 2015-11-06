@@ -19,6 +19,7 @@ group :development, :test do
   gem 'tzinfo-data',  platforms: [:mingw,:mswin,:x64_mingw,:jruby]
   gem 'carrierwave', '~>0.9'
   gem 'bootstrap-sass', '~> 2.3.2'
+  gem 'cocoon'
   
 end
 
@@ -28,5 +29,6 @@ group :production do
   gem 'tzinfo-data',  platforms: [:mingw,:mswin,:x64_mingw,:jruby]
   gem 'carrierwave', '~>0.9'
   gem 'bootstrap-sass', '~> 2.3.2'
+  gem 'cocoon'
   
 end

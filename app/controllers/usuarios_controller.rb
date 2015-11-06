@@ -1,4 +1,5 @@
 class UsuariosController < ApplicationController
+  include SessionsHelper
   before_action :set_usuario, only: [:show, :edit, :update, :destroy]
 
   # GET /usuarios
@@ -12,6 +13,16 @@ class UsuariosController < ApplicationController
   def show
   end
 
+  #Update Usuario
+  def update
+    if @usuario.update_attributes(usuario_params)
+      flash[:success] = "Profile updated"
+      redirect_to @usuario
+    else
+      render 'edit'
+    end
+  end
+  
   # GET /usuarios/new
   def new
     @usuario = Usuario.new
@@ -58,6 +69,6 @@ class UsuariosController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def usuario_params
       params[:activo]=true
-      params.require(:usuario).permit(:email, :password, :alias, :nombre, :apellido, :f_nac, :email_confirmation, :password_confirmation)
+      params.require(:usuario).permit(:email, :password, :alias, :nombre, :apellido, :activo ,:f_nac, :email_confirmation, :password_confirmation)
     end
 end

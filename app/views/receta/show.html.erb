@@ -5,7 +5,7 @@
                     <div class="row">
                         <div class="col-lg-3">
                             <h1 class="page-header">
-                                Busqueda
+                                Ver Receta
                             </h1>                            
                         </div>
                         <div class="col-lg-3">
@@ -13,19 +13,7 @@
                                 <small>Busca tu receta</small>
                             </h1>                            
                         </div>
-                        <div class="col-lg-6 page-header">                            
-                            <div class="form-group input-group">
-                                <form>
-                                    <input type="text" id="search" class="form-control" />
-                                    <%= link_to "Buscar", :busca, :class => "btn btn-default" %>
-                                    
-                                <span class="input-group-btn"></span>
-                                <button type="submit">Busca</button> 
-                                </form>
-                                   
-                                
-                            </div>
-                        </div>
+                        
                     </div>
 
                     <!-- /.row -->
@@ -55,34 +43,42 @@
                                 <div class="col-lg-8">
                                     <h2>Procedimiento:</h2><ol id="procedimientosR">
                                       <li><%= @recetum.pasos %></li>
+                                      <input type="hidden" id="recid" value="<%= @recetum.id %>" />
                                     </ol>
                                 </div>
                                 <div class="col-lg-4">
-                                  
-                                  <div class="star-rating"> 
+                                <div class="star-rating" > 
+                                  anadido:<%= @rec.calif rescue nil%> <br />
                                   <label>Califica:</label>
-                                    <span class="fa fa-star-o cal" data-rating="1"></span>
-                                    <span class="fa fa-star-o cal" data-rating="2"></span>
-                                    <span class="fa fa-star-o cal" data-rating="3"></span>
-                                    <span class="fa fa-star-o cal" data-rating="4"></span>
-                                    <span class="fa fa-star-o cal" data-rating="5"></span>
+                                    <span class="fa fa-star-o cal" data-rating="1" ></span>
+                                    <span class="fa fa-star-o cal" data-rating="2" ></span>
+                                    <span class="fa fa-star-o cal" data-rating="3" ></span>
+                                    <span class="fa fa-star-o cal" data-rating="4" ></span>
+                                    <span class="fa fa-star-o cal" data-rating="5" ></span>
                                     <input type="hidden" id="rate" class="rating-value" />
                                   </div>
                                 </div>
                                 <div class="col-lg-8">
-                                    <%= link_to "Anadir Fav", favadd_path(:id => @recetum.id), :class => "btn btn-warning" %>
+                                    <%# if @added %>
+                                        
+                                        <%= link_to "Añadir Fav", favadd_path(:id => @recetum.id), :class => "btn btn-warning" %>
+                                    <% #end %>
                                 </div>
                             </div>                                                                                  
                         </div>                                                
                     </div>
                     <!-- /.row -->
-
+<%= link_to 'Editar', edit_recetum_path(@recetum) %>
                 </div>
 
- <%= javascript_tag do %>
-  $(document).ready(function () {
+ <script>
+     $(document).ready(function () {
     var $star_rating = $('.star-rating .fa');
+    
+    
 
+    
+    
     var SetRatingStar = function() {
       return $star_rating.each(function() {
         if (parseInt($star_rating.siblings('input.rating-value').val()) >= parseInt($(this).data('rating'))) {
@@ -90,16 +86,20 @@
         } else {
           return $(this).removeClass('fa-star').addClass('fa-star-o');
         }
+        
       });
     };
     
     $star_rating.on('click', function() {
       $star_rating.siblings('input.rating-value').val($(this).data('rating'));
-      return SetRatingStar();
+      
+      SetRatingStar();
+     // document.location = "/receta/"+$("#recid").val()+"/"+$(this).attr('data-rating');
     });
     
     SetRatingStar();
   });
-  <% end %>
+ </script>
+  
 
-<%= link_to 'Edit', edit_recetum_path(@recetum) %>
+

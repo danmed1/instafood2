@@ -1,6 +1,9 @@
 
         <script>
             $(document).ready(function () {
+   
+                     $("#obj1").addClass("active");
+ 
                 var arrayRecipes = [];
                 getJSON("recetas");
                 //Lectura JSON
@@ -39,7 +42,7 @@
                     <div class="row">
                         <div class="col-lg-3">
                             <h1 class="page-header">
-                                Inicio
+                                Inicio <label><%= @AUX %></label>
                             </h1>                            
                         </div>
                         <div class="col-lg-3">
@@ -150,18 +153,19 @@
                     <!-- /.row -->
 
                     <div class="row">
+                        <div class="col-lg-4"></div>
                         <div class="col-lg-4">
                             <div class="panel panel-default">
-
+                                <%= link_to "Ver Todas las recetas", "/receta/" %>
                                 <div class="panel-body">
                                     <center>
                                         <%= image_tag "inicio.png", :id=> "mainImg", :class=>"img-responsive" %>
                                         </center>
                                 </div>
                             </div>
-                        </div>                                            
-                        
                         </div>
+
+                        
 
                     </div>
                     <!-- /.row -->

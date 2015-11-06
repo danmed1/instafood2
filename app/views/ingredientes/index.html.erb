@@ -1,29 +1,27 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Lista de Ingredientes</h1>
+<br />
+<%= link_to new_ingrediente_path do%>
+<i class="fa fa-plus"></i> Crear Ingrediente
+<%end%><br /><br />
 
-<table>
-  <thead>
-    <tr>
-      <th>Nombre</th>
-      <th>Imagen</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
     <% @ingredientes.each do |ingrediente| %>
-      <tr>
-        <td><%= link_to ingrediente.nombre, ingrediente %></td>
-        <!--<td><%= link_to_image(ingrediente.foto,ingrediente,:style=>"width:200px")%></td> -->
-        <td><%= link_to image_tag(ingrediente.foto, :style=>"width: 150px"), ingrediente %></td>
-        <!--<td><%= link_to 'Ver', ingrediente %></td> -->
-        <!--<td><%= link_to 'Editar', edit_ingrediente_path(ingrediente) %></td> -->
-        <td><%= link_to 'Borrar', ingrediente, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+    
+    <div class="col-lg-3 col-md-6">
+          <div class="panel panel-green">
+            <%= link_to 'Borrar', ingrediente, method: :delete, data: { confirm: 'Are you sure?' } %>
+            
+              <div class="panel-heading panel-food">
+               <%= link_to image_tag(ingrediente.foto, :style=>"height: 100%; width: 100%"), ingrediente %>
+                  <div class="row">
+                    <div class="col-xs-3"></div>
+                      <div class="col-xs-9 text-right">
+                        <div class="med"><%= link_to ingrediente.nombre, ingrediente %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
     <% end %>
-  </tbody>
-</table>
-<br>
-
-<%= link_to 'Crear Ingrediente', new_ingrediente_path %>

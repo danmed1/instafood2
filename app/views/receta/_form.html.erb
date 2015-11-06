@@ -30,7 +30,7 @@
                 $(".open2").click(function () {
                     if ($("#recetum_pasos").val().length > 0) {
                         //Jalar todo al form del paso 3
-                        $("#nombreCon").val($("#recipeName").val());
+                        
                         $("#ingredientsCon").empty();
                         $("#addedIngredients option").each(function (index, element) {
                             $("#ingredientsCon").append("<tr><td>" + element.text + "</td>\n\
@@ -41,8 +41,6 @@
                                     <option value=\"lt\">lt</option>\n\
                                 </select></td></tr>");
                         });
-
-                        $("#proceduresCon").val($("#recetum_pasos").val());
                        
                         //esconde los otros
                         $(".frm").hide("fast");
@@ -71,6 +69,20 @@
                 });
 
                 $(".open3").click(function () {
+                    $("#nombreCon").val($("#recipeName").val());
+                    $("#proceduresCon").val($("#recetum_pasos").val());
+                    $("#tiempoCon").val($("#tiempo").val());
+                    $("#descriptionCon").val($("#descripcion").val());
+                    $("#porcionesCon").val($("#porciones").val());
+                    $("#alimentoCon").val($("#recetum_categoria_rec_id option:selected").text());
+                    $("#ingredientsCon2").empty();
+                    $("#addedIngredients option").each(function (index, element) {
+                    
+                       $("#ingredientsCon2").append("<tr><td>"+$('#can'+index).val()+$('#uni'+index).val()+" de "+element.text+"</td></tr>");
+                    
+                    });
+
+                    
                     if ($("#descriptionCon").val()) {
                         if ($("#porcionesCon").val()) {
                             if ($("#tiempoCon").val() && $("#imageCon").val()) {
@@ -148,7 +160,7 @@
   <div class="col-lg-12 col-md-12">
         <div id="sf1" class="frm">
     <fieldset>
-                                        <legend>Paso 1 de 3 | Selecciona tus ingredientes</legend>
+                                        <legend>Paso 1 de 4 | Selecciona tus ingredientes</legend>
 
                                         <div class="form-group">
                                             <div class="col-lg-12">
@@ -185,7 +197,7 @@
                                             <div class="col-lg-10 col-lg-offset-2">
                                                 <!-- open1 is given in the class that is binded with the click event -->
                                                 <br />
-                                                <button class="btn btn-primary open1" type="button">Next <span class="fa fa-arrow-right"></span></button> 
+                                                <button class="btn btn-primary open1" type="button">Siguiente <span class="fa fa-arrow-right"></span></button> 
                                             </div>
                                         </div>
 
@@ -196,7 +208,7 @@
                                 <div id="sf2" class="frm">
 
                                     <fieldset>
-                                        <legend>Paso 2 de 3 | Ingresa los pasos</legend>
+                                        <legend>Paso 2 de 4 | Ingresa el procedimiento</legend>
 
                                         <div class="form-group">
                                             <label class="col-lg-12 control-label" for="uemail">Procedimiento: </label>
@@ -213,9 +225,9 @@
                                         <div class="form-group">
                                             <div class="col-lg-10 col-lg-offset-2">
                                                 <!-- back2 unique class name  -->
-                                                <button class="btn btn-warning back2" type="button"><span class="fa fa-arrow-left"></span> Back</button> 
+                                                <button class="btn btn-warning back2" type="button"><span class="fa fa-arrow-left"></span> Regresar</button> 
                                                 <!-- open2 unique class name -->
-                                                <button class="btn btn-primary open2" type="button">Next <span class="fa fa-arrow-right"></span></button> 
+                                                <button class="btn btn-primary open2" type="button">Siguiente <span class="fa fa-arrow-right"></span></button> 
                                             </div>
                                         </div>
                                     </fieldset>
@@ -225,14 +237,7 @@
                                 <div id="sf3" class="frm">
 
                                     <fieldset>
-                                        <legend>Paso 3 de 3 | Descripción y confirmación</legend>
-
-                                        <div class="form-group">
-                                            <label class="col-lg-2 control-label" for="upass1">Receta: </label>
-                                            <div class="col-lg-6">
-                                                <input type="text" id="nombreCon" class="form-control" autocomplete="off" readonly>
-                                            </div>
-                                        </div><br />
+                                        <legend>Paso 3 de 3 | Descripción</legend>
 
                                         <div class="form-group">
                                             <div class="col-lg-6">
@@ -252,22 +257,15 @@
                                             <div class="col-lg-6">
                                                 <label>Descripción:</label>
                                                 
-                                                <%= f.text_field :descripcion, :class=>"form-control",:id=>"descriptionCon"%>
+                                                <%= f.text_field :descripcion, :class=>"form-control",:id=>"descripcion"%>
                                                 <br />
                                                 <label>Porciones:</label>
-                                                <%= f.number_field :porciones, :class=>"form-control", :id=>"porcionesCon" %>
+                                                <%= f.number_field :porciones, :class=>"form-control", :id=>"porciones" %>
                                                 <br />
                                                 <label>Tiempo de preparación:</label>
-                                                <%= f.number_field :tiempo_prep, :class=>"form-control", :id=>"tiempoCon" %>
-                                            </div>
-                                        </div><br />
-
-                                        <div class="form-group">
-                                            <div class="col-lg-6">
-                                                <h4>Procedimientos:</h4>
-                                                <textarea id="proceduresCon" class="form-control"></textarea>
-                                            </div>
-                                            <div class="col-lg-6">
+                                                <%= f.number_field :tiempo_prep, :class=>"form-control", :id=>"tiempo" %>
+                                                <%= f.number_field :usuario_id, :class=>"form-control", :type=>"hidden", :value=> session[:user_id]%>
+                                                <br />
                                                 <label>Tipo de alimento:</label>
                                                  <%if( @categorias!=nil)%>
                                                 <%= f.select(:categoria_rec_id) do %>
@@ -276,35 +274,82 @@
                                                   <% end %>
                                                 <% end %>
                                                 <% end %>
-                                                
-                                                 
                                                 <br />
                                                 <label>Imagen:</label>
                                                  <%= f.file_field :foto, id:'imageCon' %>
                                             </div>
                                         </div><br />
-
-
                                         <div class="form-group">
                                             <div class="col-lg-10 col-lg-offset-2">
                                                 <!-- Unique class name -->
-                                                <button class="btn btn-warning back3" type="button"><span class="fa fa-arrow-left"></span> Back</button> 
+                                                <button class="btn btn-warning back3" type="button"><span class="fa fa-arrow-left"></span> Regresar</button> 
                                                 <!-- Unique class name -->
-                                                <button class="btn btn-primary open3" type="button">Next <span class="fa fa-arrow-right"></span></button> 
+                                                <button class="btn btn-primary open3" type="button">Siguiente <span class="fa fa-arrow-right"></span></button> 
                                             </div>
                                         </div>
                                     </fieldset>
                               </div>
                               <div id="sf4" class="frm">
                                   <fieldset>
-                                        <legend>Guardar</legend>
+                                        <legend>Paso 4 de 4 | Confirmar y guardar</legend>
+                                        <div class="form-group">
+                                            <label class="col-lg-2 control-label" for="upass1">Receta: </label>
+                                            <div class="col-lg-6">
+                                                <input type="text" id="nombreCon" class="form-control" autocomplete="off" readonly>
+                                            </div>
+                                        </div><br />
+
+                                        <div class="form-group">
+                                            <div class="col-lg-6">
+                                                <h4>Ingredientes:</h4>
+                                                <table id="ingredientsCon2">
+                                                    <thead>
+                                                        <tr>
+                                                            <td>Ingrediente</td>
+                                                            <td>Cantidad</td>
+                                                            <td>Unidad</td>
+                                                        </tr>
+
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                                <h4>Procedimientos:</h4>
+                                                <textarea id="proceduresCon" class="form-control" readonly></textarea>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label>Descripción:</label>
+                                                
+                                                <textarea id="descriptionCon" class="form-control" readonly></textarea>
+                                                <br />
+                                                <label>Porciones:</label>
+                                                <input type="text" id="porcionesCon" class="form-control" readonly />
+                                                <br />
+                                                <label>Tiempo de preparación:</label>
+                                               <input type="text" id="tiempoCon" class="form-control" readonly />
+                                               <br />
+                                                <label>Tipo de alimento:</label>
+                                               <input type="text" id="alimentoCon" class="form-control" readonly />
+                                               
+                                            </div>
+                                        </div>
                                         <div class="form-group">
                                             <div class="col-lg-10 col-lg-offset-2">
                                                 <!-- Unique class name -->
-                                                <button class="btn btn-warning back4" type="button"><span class="fa fa-arrow-left"></span> Back</button> 
+                                                <button class="btn btn-warning back4" type="button"><span class="fa fa-arrow-left"></span> Regresar</button> 
                                                 <!-- Unique class name -->
                                                 <%= f.submit "Guardar", :class=>"btn btn-primary", id:'recetasubmitbtn' %>
-                                                <%=f.text_field :ingredientes, class:"hidden"%>
+                                                <%#=f.text_field :receta_ings, class:"hidden"%>
+                                                <%#=fields_for :receta_ings do |a| %>
+                                                <p>test</p>
+                                                <%#=a.text_field :recetum_id%>
+                                                <%#=a.text_field :ingrediente_id%>
+                                                <%#=a.text_field :cantidad%>
+                                                <%#=a.text_field :unidad%>
+                                                <%#=a.text_field :recetum_id%>
+                                                <%#=a.text_field :ingrediente_id%>
+                                                <%#=a.text_field :cantidad%>
+                                                <%#=a.text_field :unidad%>
+                                                <%#end%>
                                             </div>
                                         </div>
                                         

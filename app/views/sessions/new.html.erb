@@ -1,3 +1,11 @@
+<script>
+    $('document').ready(function(){
+        $('#singup_error').hide();
+        if($('#session_email').val().length == 0 || $('#session_password').val().length==0){
+            $('#singup_error').show();
+        }
+    });
+</script>
 <div class="container-fluid">
 
 <br /><br />
@@ -11,17 +19,16 @@
                                 </div>
                                 <div class="panel-body">
                                      <%= form_for(:session, url: loginPrueba_path) do |f| %>
-
-                                    <%= f.label :email %>
-      <%= f.email_field :email, class: 'form-control' %>
-
-      <%= f.label :password %>
-      <%= f.password_field :password, class: 'form-control' %>
-
-      <%= f.submit "Log in", class: "btn btn-primary" %>
-    <% end %>
-
-    <p>New user? <%= link_to "Sign up now!", signup_path %></p>
+                                     <%= f.label :email %>
+                                     <%= f.email_field :email, class: 'form-control' %>
+                                     <%= f.label :password %>
+                                     <%= f.password_field :password, class: 'form-control' %>
+                                     <%= f.submit "Entrar", class: "btn btn-primary" %>
+                                     <div class="alert alert-danger" id='singup_error'>
+                                            <strong>Oh snap!</strong> El correo electronico/contraseña no son validos
+                                     </div>
+                                     <% end %>
+                                    <p>¿Nuevo usuario? <%= link_to "Registrate ahora!", signup_path %></p>
                                 </div>
                             </div>
                             </center>

@@ -86,6 +86,7 @@
 <!-- /.container-fluid -->
 
 <script>
+$("#obj2").addClass("active");
     var n = document.getElementById("incluir");
     var m = document.getElementById("excluir");
     var arrIngredientesIncluidos = [];
@@ -149,26 +150,26 @@
         arrRecetasIngTodasID = "<% @recetaIng.each do |receta| %><%=receta.receta_id %>"+"," +  "<% end %>";
         arrIngredientesID = "<% @ingredientes.each do |ing| %><%=ing.id %>"+"," +  "<% end %>";
         
-        var arrRes= [];
-        var arrRes2= [];
-        var arrRes3= [];
-        var arrRes4= [];
-        var arrRes5= [];
+        var recetasTodas= [];
+        var recetasTodasId= [];
+        var recetasIngTodas= [];
+        var recetasIngTodasId= [];
+        var ingredientesId= [];
         
-        arrRes=arrRecetasTodas.split(',');
-        arrRes.pop(-1);
+        recetasTodas=arrRecetasTodas.split(','); //FOTO DE RECETUM
+        recetasTodas.pop(-1);
         
-        arrRes2=arrRecetasTodasID.split(',');
-        arrRes2.pop(-1);
+        recetasTodasId=arrRecetasTodasID.split(','); //ID DE RECETUM
+        recetasTodasId.pop(-1);
         
-        arrRes3=arrRecetasIngTodas.split(',');
-        arrRes3.pop(-1);
+        recetasIngTodas=arrRecetasIngTodas.split(','); //ID DE INGREDIENTES EN RECETASING
+        recetasIngTodas.pop(-1);
         
-        arrRes4=arrRecetasIngTodasID.split(',');
-        arrRes4.pop(-1);
+        recetasIngTodasId=arrRecetasIngTodasID.split(','); //ID DE RECETAS EN RECETASING
+        recetasIngTodasId.pop(-1);
         
-        arrRes5=arrIngredientesID.split(',');
-        arrRes5.pop(-1);
+        ingredientesId=arrIngredientesID.split(','); //ID DE INGREDIENTES
+        ingredientesId.pop(-1);
         
         var i,j,k;        
         
@@ -177,34 +178,86 @@
         var idEncontrados = [];
         var contadorIngredientes = [];
         var idExcluidos = [];
+        var out="";
         
         if(arrIngredientesIncluidos.length==0){
-            alert("Agrega ingredientes a la lista")
+            for (i=0;i<recetasTodasId.length;i++){
+                out = out +'<a href="https://instafood-rhombeus.c9.io/receta/' + recetasTodasId[i] + '"><img src='+recetasTodas[i]+' value='+ recetasTodasId[i]+' style="width:300px"/></a>';    
+                document.getElementById("id01").innerHTML = out;
+            }
         }else{
-            for (i = 0; i < arrIngredientesIncluidos.length; i++) {
-                //contadorIngredientes[i] = 0;
-                for (j = 0; j < arrRes3.length; j++) {
-                    if ((arrIngredientesIncluidos[i]) == arrRes3[j]) {
-                        idEncontrados.push(arrRes4[j]);
-                        for(k=0;k<arrRes2.length;k++){
-                            if((arrRes4[j])==(arrRes2[k])){
-                                recetasEncontradas.push(arrRes[k]);        
+            
+            for(i=0;i<recetasTodasId.length;i++){
+                contadorIngredientes[i]=0;
+            }
+            
+
+            for(i=0;i<arrIngredientesIncluidos.length;i++){
+                //ENCUENTRA COINCIDENCIAS CON INGREDIENTES INCLUIDOS
+                for(j=0;j<recetasIngTodasId.length;j++){
+                    if(arrIngredientesIncluidos[i]==recetasIngTodas[j]){
+                        //recetasEncontradas.push(recetasIngTodasId[j]);
+                        var x = recetasIngTodasId[j];
+                        x = parseInt(x);
+                        for(k=0;k<recetasTodasId.length;k++){
+                            if(recetasTodasId[k]==x){
+                                contadorIngredientes[k]++;
                             }
                         }
-                        //contadorIngredientes[i] += 1;
+                    }
+                }
+                //ENCUENTRA COINCIDENCIAS CON INGREDIENTES EXCLUIDOS
+                for(j=0;j<recetasIngTodasId.length;j++){
+                    if(arrIngredientesExcluidos[i]==recetasIngTodas[j]){
+                        var y = recetasIngTodasId[j];
+                        y = parseInt(y);
+                        recetasExcluidas.push(recetasIngTodasId[j]);
+                    }
+                }
+            }            
+            
+            alert(recetasExcluidas);
+            
+            alert(recetasExcluidas);
+            
+            var aux = [];
+            var auxRecetas = [];
+            var auxId = [];
+            for (i = 0; i < contadorIngredientes.length; i++) {
+                for (j = 0; j < contadorIngredientes.length; j++) {
+                    if (contadorIngredientes[i] > contadorIngredientes[j]) {
+                        //ORDENA EL CONTADOR
+                        aux = contadorIngredientes[j];
+                        contadorIngredientes[j] = contadorIngredientes[i];
+                        contadorIngredientes[i] = aux;
+                        //ORDENA LAS IMAGENES
+                        auxRecetas = recetasTodasId[j];
+                        recetasTodasId[j] = recetasTodasId[i];
+                        recetasTodasId[i] = auxRecetas;
+                        //ORDENA LOS ID'S
+                        auxId = recetasTodas[j];
+                        recetasTodas[j] = recetasTodas[i];
+                        recetasTodas[i] = auxId;
                     }
                 }
             }
-            var out="";
-        for (i=0;i<idEncontrados.length;i++){
-            out = out +'<a href="https://instafood-rhombeus.c9.io/receta/' + idEncontrados[i] + '"><img src='+recetasEncontradas[i]+' value='+ arrRes2[i]+' style="width:300px"/></a>';    
+            //ELIMINAR 0'S DEL CONTADOR DE INGREDIENTES  
+            while (contadorIngredientes.indexOf(0) != (-1)) {
+                for (i = 0; i < contadorIngredientes.length; i++) {
+                    if (contadorIngredientes[i] == 0) {
+                        contadorIngredientes.splice(i, 1);
+                        recetasTodasId.splice(i, 1);
+                        recetasTodas.splice(i, 1);
+                    }
+                }
+            }
+            for (i=0;i<recetasTodasId.length;i++){
+                out = out +'<a href="https://instafood-rhombeus.c9.io/receta/' + recetasTodasId[i] + '"><img src='+recetasTodas[i]+' value='+ recetasTodasId[i]+' style="width:300px"/></a>';    
+                document.getElementById("id01").innerHTML = out;
+            }
+                    
+            
         }
-        document.getElementById("id01").innerHTML = out;
-        }
-        // alert(arrIngredientesIncluidos);
-        // alert(arrRecetasTodas);
-        // alert(arrRecetasIngTodas);
-        
         
       
     });
