@@ -12,6 +12,11 @@ var cenasArray = [];
 var snacksArray = [];
 var todasComidas = [];
 $(document).ready(function () {
+    
+     $("#bsearch").click(function(){
+        document.location = "/receta/busqueda/"+$("#search").val();
+    });
+    
     encuentraImagenesRecetas();
     intervalId = window.setInterval(caroussel, 3000);
     $("#slideContainer").mouseover(function () {

@@ -4,14 +4,19 @@ class SessionsController < ApplicationController
   end
   def create
     user = Usuario.find_by(email: params[:session][:email].downcase)
-    if user && user.authenticate(params[:session][:password])
-      log_in user
-      nombre user
-      redirect_to inicio_path
+    if user == nil
+      redirect_to root_path
     else
-      flash.now[:danger] = 'Invalid email/password combination'
-      render 'new'
+      if user && user.authenticate(params[:session][:password])
+        log_in user
+        nombre user
+        redirect_to inicio_path
+      else
+        flash.now[:danger] = 'Invalid email/password combination'
+        redirect_to root_path
+      end  
     end
+    
   end
 
   def destroy

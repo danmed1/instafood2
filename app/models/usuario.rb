@@ -13,6 +13,8 @@ class Usuario < ActiveRecord::Base
     has_many :receta_usrs
     has_many :recetas, through: :receta_usrs
     
+    
+    
     def authenticate( password)
         user = Usuario
     if user.find_by_password(password)#match_password(password)

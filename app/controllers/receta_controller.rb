@@ -1,8 +1,6 @@
 class RecetaController < ApplicationController
   before_action :set_recetum, only: [:show, :edit, :update, :destroy]
 
-  
-
   def favdel
      par = params[:id]
      RecetaUsr.where(usuario_id: session[:user_id], receta_id: par).destroy_all
@@ -12,7 +10,7 @@ class RecetaController < ApplicationController
 
    def addfav
      par = params[:id]
-       RecetaUsr.create(usuario_id: session[:user_id], receta_id: par)
+       RecetaUsr.create(usuario_id: session[:user_id], receta_id: par, siCalif: true, calif: 0)
 
     redirect_to :misfav
    end
@@ -32,6 +30,7 @@ class RecetaController < ApplicationController
   # GET /receta/1
   # GET /receta/1.json
   def show
+    @receta = Recetum.find(params[:id])
     @categoria = CategoriaRec.find(Recetum.find(params[:id]).categoria_rec_id)
     @ingredientes = Ingrediente.order('ingredientes.nombre ASC').all
     @rec = RecetaUsr.find_by(receta_id: params[:id], usuario_id: session[:user_id])
@@ -52,8 +51,8 @@ class RecetaController < ApplicationController
   end
   
   def busqueda
-    @projects = Recetum.search(params[:search])
-    #@recetas = Recetum.where(" nombre like ?",'%'+params[:search]+'%')
+   # @projects = Recetum.search(params[:search])
+    @recetas = Recetum.where(" nombre like ?",'%'+params[:search]+'%')
   end
 
   # POST /receta

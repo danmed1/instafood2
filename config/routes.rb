@@ -20,10 +20,10 @@ Rails.application.routes.draw do
   get 'cuenta/misrec', to: 'cuenta#misrec', as: :misrecetas
   get 'receta/show', to: 'receta#show', as: :misrec
   get '/receta/busqueda/:search', to: 'receta#busqueda', as: :busca
-  get '/receta/:id/:calif', to: 'receta#califica', as: :califica
   
-  get '/receta/addfav/:id', to: 'receta#addfav', :as => "favadd"
-  get '/receta/favdel/:id', to: 'receta#favdel', :as => "favdel"
+  get 'receta/addfav/:id', to: 'receta#addfav', :as => :favadd
+  get 'receta/favdel/:id', to: 'receta#favdel', :as => :favdel
+  get 'receta/:id/:calif', to: 'receta#califica', as: :califica
   
   get 'inicio/index', as: :inicio
   

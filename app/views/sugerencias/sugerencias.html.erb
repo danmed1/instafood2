@@ -96,6 +96,7 @@ $("#obj2").addClass("active");
     var arrRecetasIngTodasID = [];
     var arrIngredientesExcluidos = [];
     var arrIngredientesID = [];
+    var arrRecetasTodasNombre = [];
 
     function optionExists(sel, val) {
         return $(sel + " option[value='" + val + "']").length !== 0;
@@ -146,12 +147,14 @@ $("#obj2").addClass("active");
         document.getElementById("id01").innerHTML = " ";
         arrRecetasTodas = "<% @recetas.each do |receta| %><%= receta.foto %>"+", " +"<% end %>";
         arrRecetasTodasID = "<% @recetas.each do |receta| %><%= receta.id %>"+", " +"<% end %>";
+        arrRecetasTodasNombre = "<% @recetas.each do |receta| %><%= receta.nombre %>"+", " +"<% end %>";
         arrRecetasIngTodas = "<% @recetaIng.each do |receta| %><%=receta.ingrediente_id %>"+"," +  "<% end %>";
         arrRecetasIngTodasID = "<% @recetaIng.each do |receta| %><%=receta.receta_id %>"+"," +  "<% end %>";
         arrIngredientesID = "<% @ingredientes.each do |ing| %><%=ing.id %>"+"," +  "<% end %>";
         
         var recetasTodas= [];
         var recetasTodasId= [];
+        var recetasTodasNombre= [];
         var recetasIngTodas= [];
         var recetasIngTodasId= [];
         var ingredientesId= [];
@@ -168,24 +171,80 @@ $("#obj2").addClass("active");
         recetasIngTodasId=arrRecetasIngTodasID.split(','); //ID DE RECETAS EN RECETASING
         recetasIngTodasId.pop(-1);
         
+        recetasTodasNombre=arrRecetasTodasNombre.split(','); //ID DE RECETAS EN RECETASING
+        recetasTodasNombre.pop(-1);
+        
         ingredientesId=arrIngredientesID.split(','); //ID DE INGREDIENTES
         ingredientesId.pop(-1);
         
         var i,j,k;        
         
-        var recetasEncontradas = [];
         var recetasExcluidas = [];
-        var idEncontrados = [];
         var contadorIngredientes = [];
-        var idExcluidos = [];
         var out="";
         
-        if(arrIngredientesIncluidos.length==0){
+        if(arrIngredientesIncluidos.length==0 && arrIngredientesExcluidos.length==0){
             for (i=0;i<recetasTodasId.length;i++){
-                out = out +'<a href="https://instafood-rhombeus.c9.io/receta/' + recetasTodasId[i] + '"><img src='+recetasTodas[i]+' value='+ recetasTodasId[i]+' style="width:300px"/></a>';    
-                document.getElementById("id01").innerHTML = out;
+                out = out + 
+                '<div class="col-lg-3 col-md-6">' + 
+                    '<div class="panel panel-green">' +
+                        '<a href="https://instafood-rhombeus.c9.io/receta/' + recetasTodasId[i] + '">'+recetasTodasNombre[i] +'</a>' +
+                '<div class="panel-heading panel-food">'+
+                '<a href="https://instafood-rhombeus.c9.io/receta/' + recetasTodasId[i] + '"><img src='+recetasTodas[i]+' value='+ recetasTodasId[i]+' style="height:100%; width:100%"/></a>' +
+                        '</div></div></div>'
+                
+                //out = out +'<a href="https://instafood-rhombeus.c9.io/receta/' + recetasTodasId[i] + '">'+recetasTodasNombre[i]+'<img src='+recetasTodas[i]+' value='+ recetasTodasId[i]+' style="width:300px"/></a>';    
             }
-        }else{
+            document.getElementById("id01").innerHTML = out;
+        }else if(arrIngredientesIncluidos.length==0 && arrIngredientesExcluidos.length!=0){
+            for(i=0;i<arrIngredientesExcluidos.length;i++){
+                //ENCUENTRA COINCIDENCIAS CON INGREDIENTES EXCLUIDOS
+                for(j=0;j<recetasIngTodasId.length;j++){
+                    if(arrIngredientesExcluidos[i]==recetasIngTodas[j]){
+                        var y = recetasIngTodasId[j];
+                        y = parseInt(y);
+                        recetasExcluidas.push(y);
+                    }
+                }
+            }            
+            //ELIMINA REPETICIONES DE EXCLUIDOS
+            var unicos = [];
+            $.each(recetasExcluidas, function (i, el) {
+                if ($.inArray(el, unicos) === -1)
+                    unicos.push(el);
+            });
+            recetasExcluidas = unicos;   
+            
+            //ELIMINA RECETAS CON INGREDIENTES EXCLUIDOs
+            var coincidencias=false;
+            do{
+                coincidencias=false;
+                for (i = 0; i < recetasExcluidas.length; i++) {
+                    for (j = 0; j < recetasTodasId.length; j++) {
+                        if(recetasExcluidas[i]==recetasTodasId[j]){
+                            recetasTodasId.splice(j, 1);    
+                            recetasTodas.splice(j, 1);    
+                            recetasTodasNombre.splice(j, 1);    
+                            coincidencias=true;
+                        }
+                    }
+                }
+            }
+            while(coincidencias)
+            
+            for (i=0;i<recetasTodasId.length;i++){
+                out = out + 
+                '<div class="col-lg-3 col-md-6">' + 
+                    '<div class="panel panel-green">' +
+                        '<a href="https://instafood-rhombeus.c9.io/receta/' + recetasTodasId[i] + '">'+recetasTodasNombre[i] +'</a>' +
+                '<div class="panel-heading panel-food">'+
+                '<a href="https://instafood-rhombeus.c9.io/receta/' + recetasTodasId[i] + '"><img src='+recetasTodas[i]+' value='+ recetasTodasId[i]+' style="height:100%; width:100%"/></a>' +
+                        '</div></div></div>'
+                //out = out +'<a href="https://instafood-rhombeus.c9.io/receta/' + recetasTodasId[i] + '"><img src='+recetasTodas[i]+' value='+ recetasTodasId[i]+' style="width:300px"/></a>';    
+            }
+            document.getElementById("id01").innerHTML = out;
+        }
+        else{
             
             for(i=0;i<recetasTodasId.length;i++){
                 contadorIngredientes[i]=0;
@@ -196,7 +255,6 @@ $("#obj2").addClass("active");
                 //ENCUENTRA COINCIDENCIAS CON INGREDIENTES INCLUIDOS
                 for(j=0;j<recetasIngTodasId.length;j++){
                     if(arrIngredientesIncluidos[i]==recetasIngTodas[j]){
-                        //recetasEncontradas.push(recetasIngTodasId[j]);
                         var x = recetasIngTodasId[j];
                         x = parseInt(x);
                         for(k=0;k<recetasTodasId.length;k++){
@@ -211,14 +269,18 @@ $("#obj2").addClass("active");
                     if(arrIngredientesExcluidos[i]==recetasIngTodas[j]){
                         var y = recetasIngTodasId[j];
                         y = parseInt(y);
-                        recetasExcluidas.push(recetasIngTodasId[j]);
+                        recetasExcluidas.push(y);
                     }
                 }
             }            
             
-            alert(recetasExcluidas);
-            
-            alert(recetasExcluidas);
+            //ELIMINA REPETICIONES DE EXCLUIDOS
+            var unicos = [];
+            $.each(recetasExcluidas, function (i, el) {
+                if ($.inArray(el, unicos) === -1)
+                    unicos.push(el);
+            });
+            recetasExcluidas = unicos;
             
             var aux = [];
             var auxRecetas = [];
@@ -234,6 +296,10 @@ $("#obj2").addClass("active");
                         auxRecetas = recetasTodasId[j];
                         recetasTodasId[j] = recetasTodasId[i];
                         recetasTodasId[i] = auxRecetas;
+                        //ORDENA LOS NOMBRES
+                        auxRecetas = recetasTodasNombre[j];
+                        recetasTodasNombre[j] = recetasTodasNombre[i];
+                        recetasTodasNombre[i] = auxRecetas;
                         //ORDENA LOS ID'S
                         auxId = recetasTodas[j];
                         recetasTodas[j] = recetasTodas[i];
@@ -248,182 +314,47 @@ $("#obj2").addClass("active");
                         contadorIngredientes.splice(i, 1);
                         recetasTodasId.splice(i, 1);
                         recetasTodas.splice(i, 1);
+                        recetasTodasNombre.splice(i, 1);
                     }
                 }
             }
-            for (i=0;i<recetasTodasId.length;i++){
-                out = out +'<a href="https://instafood-rhombeus.c9.io/receta/' + recetasTodasId[i] + '"><img src='+recetasTodas[i]+' value='+ recetasTodasId[i]+' style="width:300px"/></a>';    
-                document.getElementById("id01").innerHTML = out;
-            }
-                    
             
+            if(arrIngredientesIncluidos.length==0){
+                for (i=0;i<recetasTodasId.length;i++){
+                    out = out +'<a href="https://instafood-rhombeus.c9.io/receta/' + recetasTodasId[i] + '"><img src='+recetasTodas[i]+' value='+ recetasTodasId[i]+' style="width:300px"/></a>';    
+                    document.getElementById("id01").innerHTML = out;                    
+                }
+            }
+            
+            //ELIMINA RECETAS CON INGREDIENTES EXCLUIDOs
+            var coincidencias=false;
+            do{
+                coincidencias=false;
+                for (i = 0; i < recetasExcluidas.length; i++) {
+                    for (j = 0; j < recetasTodasId.length; j++) {
+                        if(recetasExcluidas[i]==recetasTodasId[j]){
+                            recetasTodasId.splice(j, 1);    
+                            recetasTodas.splice(j, 1);    
+                            recetasTodasNombre.splice(j, 1);
+                            coincidencias=true;
+                        }
+                    }
+                }
+            }
+            while(coincidencias)
+            
+            for (i=0;i<recetasTodasId.length;i++){
+                out = out + 
+                '<div class="col-lg-3 col-md-6">' + 
+                    '<div class="panel panel-green">' +
+                        '<a href="https://instafood-rhombeus.c9.io/receta/' + recetasTodasId[i] + '">'+recetasTodasNombre[i] +'</a>' +
+                '<div class="panel-heading panel-food">'+
+                '<a href="https://instafood-rhombeus.c9.io/receta/' + recetasTodasId[i] + '"><img src='+recetasTodas[i]+' value='+ recetasTodasId[i]+' style="height:100%; width:100%"/></a>' +
+                        '</div></div></div>'
+                //out = out +'<a href="https://instafood-rhombeus.c9.io/receta/' + recetasTodasId[i] + '"><img src='+recetasTodas[i]+' value='+ recetasTodasId[i]+' style="width:300px"/></a>';    
+            }
+            document.getElementById("id01").innerHTML = out;
         }
-        
-      
     });
 </script>
 
-<!--
-<script>
-            $("#navbarCode").load("navbar.html");
-            $('#formaIng').submit(function (e) {
-                e.preventDefault();
-            });
-
-            var arrayAll = [];
-            var arrayProcedures = [];
-            var arrayRecipes = [];
-            getJSON("recetas");
-            getJSON("ingredientes");
-            /*************PRUEBA*****************************/
-            //Lectura JSON
-            function getJSON(type) {
-                var xmlhttp = new XMLHttpRequest();
-                var url = "json/" + type + ".json";
-                //var url = "http://www.w3schools.com/website/Customers_MYSQL.php";
-                xmlhttp.onreadystatechange = function () {
-                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                        myFunction(xmlhttp.responseText, type);
-                    }
-                }
-                function myFunction(response, type) {
-                    if (type === "recetas") {
-                        arrayRecipes = JSON.parse(response);
-                    } else {
-                        arrayAll = JSON.parse(response);
-                        var i;
-                        for (i = 0; i < arrayAll.length; i++) {
-                            $("#incluir").append('<option value="' + arrayAll[i].nombre + '">' + arrayAll[i].nombre + '</option>');
-                            $("#excluir").append('<option value="' + arrayAll[i].nombre + '">' + arrayAll[i].nombre + '</option>');
-                        }
-                        /*AÑADIR MULTIPLE SELECT*/
-                    }
-                }
-                xmlhttp.open("GET", url, true);
-                xmlhttp.send();
-            }
-
-            /*******************PRUEBA**************/
-
-            $('#buscarRecetas').click(function () {
-                document.getElementById("id01").innerHTML = " ";
-                var xmlhttp = new XMLHttpRequest();
-                var url = "json/recetas.json";
-                xmlhttp.onreadystatechange = function () {
-                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                        myFunction(xmlhttp.responseText);
-                    }
-                }
-                xmlhttp.open("GET", url, true);
-                xmlhttp.send();
-                function myFunction(response) {
-                    var arr = JSON.parse(response);
-                    var i, j, k;
-                    var out = "<table><tr><td>";
-                    var recetasEncontradas = [];
-                    var recetasExcluidas = [];
-                    var idEncontrados = [];
-                    var contadorIngredientes = [];
-                    var idExcluidos = [];
-                    var sizeIngIncl = arrIngredientesIncluidos.length;
-                    var sizeIngExcl = arrIngredientesExcluidos.length;
-                    //LLENA LOS ARREGLOS CON LAS COINCIDENCIAS DE RECETAS E INGREDIENTES                        
-                    for (i = 0; i < arr.length; i++) {
-                        contadorIngredientes[i] = 0;
-                        var n = arr[i].ingredientes.length;
-                        for (j = 0; j < n; j++) {
-                            for (k = 0; k < sizeIngIncl; k++) {
-                                if ((arr[i].ingredientes[j].ing.nombre) == arrIngredientesIncluidos[k]) {
-                                    recetasEncontradas.push(arr[i].image);
-                                    idEncontrados.push(arr[i].id);
-                                    contadorIngredientes[i] += 1;
-                                }
-                            }
-                            for (k = 0; k < sizeIngExcl; k++) {
-                                if ((arr[i].ingredientes[j].ing.nombre) == arrIngredientesExcluidos[k]) {
-                                    recetasExcluidas.push(arr[i].image);
-                                    idExcluidos.push(arr[i].id);
-                                }
-                            }
-                        }
-                    }
-                    //ELIMINAR 0'S DEL CONTADOR DE INGREDIENTES  
-                    while (contadorIngredientes.indexOf(0) != (-1)) {
-                        for (i = 0; i < contadorIngredientes.length; i++) {
-                            if (contadorIngredientes[i] == 0) {
-                                contadorIngredientes.splice(i, 1);
-                            }
-                        }
-                    }
-                    //ELIMINA REPETICIONES                        
-                    var unicos = [];
-                    $.each(idEncontrados, function (i, el) {
-                        if ($.inArray(el, unicos) === -1)
-                            unicos.push(el);
-                    });
-                    idEncontrados = unicos;
-
-                    unicos = [];
-                    $.each(recetasEncontradas, function (i, el) {
-                        if ($.inArray(el, unicos) === -1)
-                            unicos.push(el);
-                    });
-                    recetasEncontradas = unicos;
-
-                    unicos = [];
-                    $.each(recetasExcluidas, function (i, el) {
-                        if ($.inArray(el, unicos) === -1)
-                            unicos.push(el);
-                    });
-                    recetasExcluidas = unicos;
-
-                    unicos = [];
-                    $.each(idExcluidos, function (i, el) {
-                        if ($.inArray(el, unicos) === -1)
-                            unicos.push(el);
-                    });
-                    idExcluidos = unicos;
-
-                    //ORDENA LAS RECETAS DE MAYOR A MENOR COINCIDENCIAS 
-                    var aux = [];
-                    var auxRecetas = [];
-                    var auxId = [];
-                    for (i = 0; i < contadorIngredientes.length; i++) {
-                        for (j = 0; j < contadorIngredientes.length; j++) {
-                            if (contadorIngredientes[i] > contadorIngredientes[j]) {
-                                //ORDENA EL CONTADOR
-                                aux = contadorIngredientes[j];
-                                contadorIngredientes[j] = contadorIngredientes[i];
-                                contadorIngredientes[i] = aux;
-                                //ORDENA LAS IMAGENES
-                                auxRecetas = recetasEncontradas[j];
-                                recetasEncontradas[j] = recetasEncontradas[i];
-                                recetasEncontradas[i] = auxRecetas;
-                                //ORDENA LOS ID'S
-                                auxId = idEncontrados[j];
-                                idEncontrados[j] = idEncontrados[i];
-                                idEncontrados[i] = auxId;
-                            }
-                        }
-                    }
-
-                    //ELIMINA LAS RECETAS ENCONTRADAS QUE INCLUYEN INGREDIENTES EXCLUIDOS
-
-                    var diff = $(idEncontrados).not(idExcluidos).get();
-                    idEncontrados = diff;
-
-                    diff = $(recetasEncontradas).not(recetasExcluidas).get();
-                    recetasEncontradas = diff;
-
-                    //ESCRIBE TODAS LAS RECETAS QUE ENCUETRA
-                    for (i = 0; i < recetasEncontradas.length; i++) {
-                        out += '<a href="template-receta.html?id=' + idEncontrados[i] + '"><img src="img/' + recetasEncontradas[i] + '" height="300" width="300" /></a>  &nbsp;';
-                    }
-                    out += "</table>";
-                    document.getElementById("id01").innerHTML = out;
-                }
-            });
-
-
-        </script> 
--->

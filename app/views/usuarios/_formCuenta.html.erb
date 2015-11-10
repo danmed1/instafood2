@@ -87,7 +87,10 @@
 };//http://stackoverflow.com/questions/2855865/jquery-regex-validation-of-e-mail-address
 </script>
 
-<div class="col-lg-6">
+
+
+
+
 
         <%= form_for(@usuario) do |f| %>
   <% if @usuario.errors.any? %>
@@ -131,7 +134,7 @@
   </div>
   <div class='form-group'>
     <%= f.label :alias %>
-    <%= f.text_field :alias, class: 'form-control', placeholder: 'EL nombre que veran los otros usuarios' %>
+    <%= f.text_field :alias, class: 'form-control', placeholder: 'EL nombre que verán los otros usuarios' %>
       <div class="alert alert-danger" id='aliaserror'>
                     <strong>Oh snap!</strong> El alias es un campo necesario
       </div>
@@ -141,7 +144,7 @@
                     <strong>Oh snap!</strong> El nombre es un campo necesario
       </div>
     <%= f.label :apellido %>
-    <%= f.text_field :apellido, class: 'form-control', placeholder: 'Perez' %>
+    <%= f.text_field :apellido, class: 'form-control', placeholder: 'Pérez' %>
       <div class="alert alert-danger" id='apellidoerror'>
                     <strong>Oh snap!</strong> El apellido es un campo necesario
       </div>
@@ -156,4 +159,3 @@
 </div>
 <% end %>
 
-</div>

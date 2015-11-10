@@ -5,12 +5,12 @@ class CuentaController < ApplicationController
   end
   
   def misrec
-    @receta = Recetum.where(usuario_id: session[:user_id])
+    @receta = Recetum.order("created_at DESC").where(usuario_id: session[:user_id])
 
   end
   
   def misfav
-    @recetas = RecetaUsr.where(usuario_id: session[:user_id])
+    @recetas = RecetaUsr.order("calif DESC").where(usuario_id: session[:user_id], siCalif: true)
     @receta = []
     @recetas.each do |rec|
       aux = Recetum.find(rec.receta_id)

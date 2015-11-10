@@ -9,7 +9,7 @@ CategoriaRec.create(nombre:"Desayuno")
 CategoriaRec.create(nombre:"Comida")
 CategoriaRec.create(nombre:"Cena")
 CategoriaRec.create(nombre:"Snack")
-Usuario.create(email:"admin@instafood.com",alias:"Administrador",nombre:"Juan Paco Pedro",apellido:"De la Mar",f_nac:"01-01-1900",activo:true,password:"test")
+Usuario.create(email:"admin@instafood.com",alias:"Administrador",nombre:"Juan Paco Pedro",apellido:"De la Mar",f_nac:"01-01-1900",created_at:"2015-11-10 10:10:10",updated_at:"2015-11-10 10:10:10",activo:true,password:"test")
 
 RecetaIng.create(receta_id:2,ingrediente_id:1,cantidad:2,unidad:"Kg")
 RecetaIng.create(receta_id:2,ingrediente_id:2,cantidad:2,unidad:"Kg")
