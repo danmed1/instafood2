@@ -34,11 +34,13 @@
                         $("#ingredientsCon").empty();
                         $("#addedIngredients option").each(function (index, element) {
                             $("#ingredientsCon").append("<tr><td>" + element.text + "</td>\n\
-                            <td><input class=\"form-control cantholder\" type=\"number\" id=\"can" + index + "\"/></td>\n\
-                            <td><select class=\"form-control uniholder \" id=\"uni" + index + "\">\n\
-                                    <option value=\"kg\">kg</option>\n\
-                                    <option value=\"g\">g</option>\n\
-                                    <option value=\"lt\">lt</option>\n\
+                            <td><input class='form-control hidden' type='number' id='receta_ings_ingrediente_id"+index+"' name='receta_ings["+index+"][ingrediente_id]' value='"+$(element).val()+"'/></td> \n\
+                            <td><input class='form-control cantholder' type='number' id='receta_ings_cantidad" + index + "' name='receta_ings["+index+"][cantidad]'/></td>\n\
+                            <td><select class='form-control uniholder' id='receta_ings_unidad" + index + "' name='receta_ings["+index+"][unidad]'>\n\
+                                    <option value='kg'>kg</option>\n\
+                                    <option value='g'>g</option>\n\
+                                    <option value='lt'>lt</option>\n\
+                                    <option value='ml'>ml</option>\n\
                                 </select></td></tr>");
                         });
                        
@@ -78,7 +80,7 @@
                     $("#ingredientsCon2").empty();
                     $("#addedIngredients option").each(function (index, element) {
                     
-                       $("#ingredientsCon2").append("<tr><td>"+$('#can'+index).val()+$('#uni'+index).val()+" de "+element.text+"</td></tr>");
+                       $("#ingredientsCon2").append("<tr><td>"+$('#receta_ings_cantidad'+index).val()+$('#receta_ings_unidad'+index).val()+" de "+element.text+"</td></tr>");
                     
                     });
 
@@ -89,7 +91,7 @@
                                 // used delay form submission for a seccond and show a loader image
                                 var ingsJson= [];
                     $("#addedIngredients option").each(function (index, element) {
-                       ingsJson.push({id:+$(element).attr('value'),cantidad:$('#can'+index).val(),unidad:$('#uni'+index).val()});
+                       ingsJson.push({id:+$(element).attr('value'),cantidad:$('#receta_ings_cantidad'+index).val(),unidad:$('#receta_ings_unidad'+index).val()});
                     
                     });
                     $('#recetum_ingredientes').val(JSON.stringify(ingsJson));
@@ -339,17 +341,17 @@
                                                 <!-- Unique class name -->
                                                 <%= f.submit "Guardar", :class=>"btn btn-primary", id:'recetasubmitbtn' %>
                                                 <%#=f.text_field :receta_ings, class:"hidden"%>
-                                                <%=fields_for :receta_ings do |a| %>
-                                                <p>test</p>
-                                                <%#=a.text_field :recetum_id%>
-                                                <%=a.text_field :ingrediente_id%>
-                                                <%=a.text_field :cantidad%>
-                                                <%=a.text_field :unidad%>
+                                                <%#=fields_for :receta_ings do |a| %>
+                                                
                                                 <%#=a.text_field :recetum_id%>
                                                 <%#=a.text_field :ingrediente_id%>
                                                 <%#=a.text_field :cantidad%>
                                                 <%#=a.text_field :unidad%>
-                                                <%end%>
+                                                <%#=a.text_field :recetum_id%>
+                                                <%#=a.text_field :ingrediente_id%>
+                                                <%#=a.text_field :cantidad%>
+                                                <%#=a.text_field :unidad%>
+                                                <%#end%>
                                             </div>
                                         </div>
                                         
