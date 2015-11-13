@@ -339,17 +339,17 @@
                                                 <!-- Unique class name -->
                                                 <%= f.submit "Guardar", :class=>"btn btn-primary", id:'recetasubmitbtn' %>
                                                 <%#=f.text_field :receta_ings, class:"hidden"%>
-                                                <%#=fields_for :receta_ings do |a| %>
+                                                <%=fields_for :receta_ings do |a| %>
                                                 <p>test</p>
                                                 <%#=a.text_field :recetum_id%>
-                                                <%#=a.text_field :ingrediente_id%>
-                                                <%#=a.text_field :cantidad%>
-                                                <%#=a.text_field :unidad%>
+                                                <%=a.text_field :ingrediente_id%>
+                                                <%=a.text_field :cantidad%>
+                                                <%=a.text_field :unidad%>
                                                 <%#=a.text_field :recetum_id%>
                                                 <%#=a.text_field :ingrediente_id%>
                                                 <%#=a.text_field :cantidad%>
                                                 <%#=a.text_field :unidad%>
-                                                <%#end%>
+                                                <%end%>
                                             </div>
                                         </div>
                                         

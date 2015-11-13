@@ -59,6 +59,7 @@ class RecetaController < ApplicationController
   # POST /receta.json
   def create
     @recetum = Recetum.new(recetum_params)
+    @recetum.receta_ings.build(receta_ings_params)
     respond_to do |format|
       if @recetum.save
         #@ingredientes=@recetum.receta_ings.create(receta_ings_params)
@@ -123,6 +124,6 @@ class RecetaController < ApplicationController
     end
     def receta_ings_params
     #params.require(:recetum).permit(:receta_ings =>[:recetum_id,:ingrediente_id,:cantidad,:unidad])
-    params.require(:recetum).permit(:all)
+    params.require(:receta_ings).permit(:ingrediente_id,:cantidad,:unidad)
     end
 end

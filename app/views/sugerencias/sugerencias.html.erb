@@ -149,7 +149,7 @@ $("#obj2").addClass("active");
         arrRecetasTodasID = "<% @recetas.each do |receta| %><%= receta.id %>"+", " +"<% end %>";
         arrRecetasTodasNombre = "<% @recetas.each do |receta| %><%= receta.nombre %>"+", " +"<% end %>";
         arrRecetasIngTodas = "<% @recetaIng.each do |receta| %><%=receta.ingrediente_id %>"+"," +  "<% end %>";
-        arrRecetasIngTodasID = "<% @recetaIng.each do |receta| %><%=receta.receta_id %>"+"," +  "<% end %>";
+        arrRecetasIngTodasID = "<% @recetaIng.each do |receta| %><%=receta.recetum_id %>"+"," +  "<% end %>";
         arrIngredientesID = "<% @ingredientes.each do |ing| %><%=ing.id %>"+"," +  "<% end %>";
         
         var recetasTodas= [];
@@ -187,11 +187,11 @@ $("#obj2").addClass("active");
             for (i=0;i<recetasTodasId.length;i++){
                 out = out + 
                 '<div class="col-lg-3 col-md-6">' + 
-                    '<div class="panel panel-green">' +
+                    '<div class="panel panel-yellow">' +
                         '<a href="https://instafood-rhombeus.c9.io/receta/' + recetasTodasId[i] + '">'+recetasTodasNombre[i] +'</a>' +
-                '<div class="panel-heading panel-food">'+
-                '<a href="https://instafood-rhombeus.c9.io/receta/' + recetasTodasId[i] + '"><img src='+recetasTodas[i]+' value='+ recetasTodasId[i]+' style="height:100%; width:100%"/></a>' +
-                        '</div></div></div>'
+                    '<div class="panel-heading panel-food">'+
+                        '<a href="https://instafood-rhombeus.c9.io/receta/' + recetasTodasId[i] + '"><img src='+recetasTodas[i]+' value='+ recetasTodasId[i]+' style="height:100%; width:100%"/></a>' +
+                '</div></div></div>'
                 
                 //out = out +'<a href="https://instafood-rhombeus.c9.io/receta/' + recetasTodasId[i] + '">'+recetasTodasNombre[i]+'<img src='+recetasTodas[i]+' value='+ recetasTodasId[i]+' style="width:300px"/></a>';    
             }
@@ -235,22 +235,19 @@ $("#obj2").addClass("active");
             for (i=0;i<recetasTodasId.length;i++){
                 out = out + 
                 '<div class="col-lg-3 col-md-6">' + 
-                    '<div class="panel panel-green">' +
+                    '<div class="panel panel-yellow">' +
                         '<a href="https://instafood-rhombeus.c9.io/receta/' + recetasTodasId[i] + '">'+recetasTodasNombre[i] +'</a>' +
-                '<div class="panel-heading panel-food">'+
-                '<a href="https://instafood-rhombeus.c9.io/receta/' + recetasTodasId[i] + '"><img src='+recetasTodas[i]+' value='+ recetasTodasId[i]+' style="height:100%; width:100%"/></a>' +
-                        '</div></div></div>'
+                    '<div class="panel-heading panel-food">'+
+                        '<a href="https://instafood-rhombeus.c9.io/receta/' + recetasTodasId[i] + '"><img src='+recetasTodas[i]+' value='+ recetasTodasId[i]+' style="height:100%; width:100%"/></a>' +
+                '</div></div></div>'
                 //out = out +'<a href="https://instafood-rhombeus.c9.io/receta/' + recetasTodasId[i] + '"><img src='+recetasTodas[i]+' value='+ recetasTodasId[i]+' style="width:300px"/></a>';    
             }
             document.getElementById("id01").innerHTML = out;
         }
         else{
-            
             for(i=0;i<recetasTodasId.length;i++){
                 contadorIngredientes[i]=0;
             }
-            
-
             for(i=0;i<arrIngredientesIncluidos.length;i++){
                 //ENCUENTRA COINCIDENCIAS CON INGREDIENTES INCLUIDOS
                 for(j=0;j<recetasIngTodasId.length;j++){
@@ -346,7 +343,7 @@ $("#obj2").addClass("active");
             for (i=0;i<recetasTodasId.length;i++){
                 out = out + 
                 '<div class="col-lg-3 col-md-6">' + 
-                    '<div class="panel panel-green">' +
+                    '<div class="panel panel-yellow">' +
                         '<a href="https://instafood-rhombeus.c9.io/receta/' + recetasTodasId[i] + '">'+recetasTodasNombre[i] +'</a>' +
                 '<div class="panel-heading panel-food">'+
                 '<a href="https://instafood-rhombeus.c9.io/receta/' + recetasTodasId[i] + '"><img src='+recetasTodas[i]+' value='+ recetasTodasId[i]+' style="height:100%; width:100%"/></a>' +
