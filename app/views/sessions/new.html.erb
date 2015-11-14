@@ -1,11 +1,3 @@
-<script>
-    $('document').ready(function(){
-        $('#singup_error').hide();
-        if($('#session_email').val().length == 0 || $('#session_password').val().length==0){
-            $('#singup_error').show();
-        }
-    });
-</script>
 <div class="container-fluid">
 
 <br /><br />
@@ -23,9 +15,8 @@
                                      <%= f.email_field :email, class: 'form-control' %>
                                      <%= f.label :password %>
                                      <%= f.password_field :password, class: 'form-control' %>
-                                     <%= f.submit "Entrar", class: "btn btn-primary" %>
-                                     <div class="alert alert-danger" id='singup_error'>
-                                            <strong>Oh snap!</strong> El correo electronico/contraseña no son validos
+                                     <%= f.submit "Entrar", class: "btn btn-primary", id:"botonInicio" %>
+                                     <div  id='singup_error'>
                                      </div>
                                      <% end %>
                                     <p>¿Nuevo usuario? <%= link_to "Regístrate ahora!", signup_path %></p>
@@ -36,3 +27,12 @@
                     </div>
                                     </div>
             </div>
+    <script>     
+        $('#botonInicio').click(function(e) {
+            if($('#session_email').val().length == 0 || $('#session_password').val().length==0){
+                var out = '<div class="alert alert-danger"<strong>Oh snap!</strong> Por favor ingresa un correo electrónico y contraseña válidos</div>'
+                $("#singup_error").html(out);
+                e.preventDefault();
+            }
+        });
+    </script>

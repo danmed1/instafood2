@@ -15,14 +15,15 @@ class Usuario < ActiveRecord::Base
     
     
     
-    def authenticate( password)
-        user = Usuario
-    if user.find_by_password(password)#match_password(password)
+def authenticate(password,email)
+    us = Usuario.find_by(password: password,email: email)
+    
+   # logger.info email
+    if  us 
         return true
     else
         return false
     end
-    end
-    
+end
 end
 

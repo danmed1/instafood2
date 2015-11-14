@@ -58,11 +58,8 @@ class RecetaController < ApplicationController
   # POST /receta
   # POST /receta.json
   def create
-   recetum_params
-    #recetum_attr=(recetum_params)
-    #receta_ing_attr=recetum_attr.delete("receta_ings_parameters")
+   
     hash={}
-    #hash[:authenticity_token]=params[:authenticity_token]
     hash[:nombre]= params[:nombre]
     hash[:pasos]= params[:pasos]
     hash[:tiempo_prep]= params[:tiempo_prep]
@@ -71,28 +68,39 @@ class RecetaController < ApplicationController
     hash[:foto]= params[:foto]
     hash[:descripcion]= params[:descripcion]
     hash[:categoria_rec_id]= params[:categoria_rec_id]
+    #hashring[:rece_ings][:"0"][:ingrediente_id]
+    @recetum = Recetum.new(recetum_params)
+    logger.info recetum_params
+    
+    
     hashring={}
-    hashring[:rece_ings]=params[:recetum][:receta_ings]
+    hashring[:rece_ings]=params[:receta_ings]
+    rec_ings=hashring.values
     
-    
-    @recetum = Recetum.new(hash)
-    @recetum.receta_ings=params[:recetum][:receta_ings].map do |r|
-      receta_ing_hash={}
-      receta_ing_hash[:ingrediente_id]=r[ingrediente_id]
-      receta_ing_hash[:cantidad]=r[cantidad]
-      receta_ing_hash[:unidad]=r[unidad]
-      RecetaIng.new(receta_ing_hash)
-    end
-    #rec_ings=hashring.values
-    #rec_ings.each do |r|
-    #  @recetum.receta_ings.new(r)
+   # rec_ings.each do |r|
+  #    single={}
+   #   single[:recetum_id]=@recetum.id
+  #    single[:ingrediente_id]=r[:ingrediente_id]
+  #    single[:cantidad]=r[:cantidad]
+  #    single[:unidad]=r[:unidad]
+  #    RecetaIng.create(recetum_id: @recetum.id, ingrediente_id: r[:ingrediente_id] , cantidad: r[:cantidad] ,unidad: r[:unidad] )
+  #  end
+   # @recetum.receta_ings=params[:recetum][:receta_ings].map do |r|
+    #  receta_ing_hash={}
+     # receta_ing_hash[:ingrediente_id]=r[ingrediente_id]
+      #receta_ing_hash[:cantidad]=r[cantidad]
+      #receta_ing_hash[:unidad]=r[unidad]
+      #RecetaIng.new(receta_ing_hash)
     #end
+   
    
     respond_to do |format|
       if @recetum.save
+       
         format.html { redirect_to @recetum, notice: 'Recetum was successfully created.' }
         format.json { render :show, status: :created, location: @recetum }
         
+         logger.info(" rec_ings="+ @recetum.id.to_i)
       else
         format.html {  redirect_to @recetum, notice: 'Errores' }
         format.json { render json: @recetum.errors, status: :unprocessable_entity }
@@ -134,7 +142,7 @@ class RecetaController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def recetum_params
       params[:usuario_id]=session[:user_id]
-      params.require(:recetum).permit(:nombre,:pasos, :tiempo_prep, :porciones, :usuario_id,:foto,:descripcion, :categoria_rec_id,:receta_ings_parameters =>[:ingrediente_id,:cantidad,:unidad])
+      params.require(:recetum).permit(:nombre,:pasos, :tiempo_prep, :porciones, :usuario_id,:foto,:descripcion, :categoria_rec_id,:receta_ings_attributes =>[:id,:ingrediente_id,:cantidad,:unidad])
       
     end
     def receta_ings_params

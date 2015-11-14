@@ -10,8 +10,7 @@ class Recetum < ActiveRecord::Base
     has_many :receta_usrs
     has_many :usuarios, through: :receta_usrs
     belongs_to :categoria_rec
-    accepts_nested_attributes_for :receta_ings,
-    :reject_if => :all_blank
+    accepts_nested_attributes_for :receta_ings
 end
 
 def self.search(search)

@@ -4,10 +4,11 @@ class SessionsController < ApplicationController
   end
   def create
     user = Usuario.find_by(email: params[:session][:email].downcase)
+    
     if user == nil
       redirect_to root_path
     else
-      if user && user.authenticate(params[:session][:password])
+      if user && user.authenticate(params[:session][:password],params[:session][:email])
         log_in user
         nombre user
         email user
