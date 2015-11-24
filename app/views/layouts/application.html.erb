@@ -102,19 +102,29 @@
                 <div class="collapse navbar-collapse navbar-ex1-collapse">
                     <ul class="nav navbar-right top-nav navbar-collapse navbar-ex1-collapse">
                         <li>
-                            <%= link_to "Buscar con mis ingredientes", :sugerencias, :class => "fa fa-search"%>
+                            <%= link_to :sugerencias do %>
+                                <i class="fa fa-search"></i> Buscar con mis ingredientes
+                            <% end %>
                         </li>
                         <li>
-                            <%= link_to "Ver Todas las recetas", "/receta/", :class => "fa fa-cutlery"%>
+                            <%= link_to "/receta/" do %>
+                                <i class="fa fa-cutlery"></i> Ver todas las recetas
+                            <% end %>
                         </li>
                         <li >
-                            <%= link_to "Subir receta", :altasr, :class => "fa fa-upload"%>
+                            <%= link_to :altasr do%>
+                            <i class="fa fa-upload"></i> Subir receta
+                            <% end %>
                         </li>
                         <li >
-                            <%= link_to "Mis recetas", :misrecetas, :class => "fa fa-folder-open"%>
+                            <%= link_to :misrecetas do  %>
+                            <i class="fa fa-folder-open"></i> Mis recetas
+                            <% end %>
                         </li>
                         <li >
-                            <%= link_to "Mis favoritas", :misfav, :class => "fa fa-star"%>
+                            <%= link_to :misfav do%>
+                            <i class="fa fa-star"></i> Mis favoritas
+                            <% end %>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <%= session[:user_name] %> <b class="caret"></b></a>

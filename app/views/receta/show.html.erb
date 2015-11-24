@@ -45,6 +45,7 @@
                                 <div class="col-lg-4">
                                     <h2>Ingredientes:</h2><ul id="ingredientesR">
                                         <% @ingRec.each do |ing| %>
+                                        <li><%=ing.ingrediente.nombre%> <%=ing.cantidad%> <%=ing.unidad%> </li>
                                         <% end %>
                                     </ul>
                                 </div>
