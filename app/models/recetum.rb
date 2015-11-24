@@ -1,8 +1,8 @@
 class Recetum < ActiveRecord::Base
     mount_uploader :foto, AttachmentUploader
     validates :nombre, presence: true, uniqueness: true, length: { maximum: 40 }
-    validates :tiempo_prep, presence: true, numericality: { only_integer: true }
-    validates :porciones, presence: true, numericality: { only_integer: true }
+    validates :tiempo_prep, presence: true, numericality: { only_integer: true,greater_than:0 }
+    validates :porciones, presence: true, numericality: { only_integer: true },numericality: {greater_than: 0}
     validates :categoria_rec, presence: true
     validates :foto, presence: true
     has_many :receta_ings
