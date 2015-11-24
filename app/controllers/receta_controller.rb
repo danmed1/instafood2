@@ -34,7 +34,10 @@ class RecetaController < ApplicationController
     @categoria = CategoriaRec.find(Recetum.find(params[:id]).categoria_rec_id)
     @ingredientes = Ingrediente.order('ingredientes.nombre ASC').all
     @rec = RecetaUsr.find_by(receta_id: params[:id], usuario_id: session[:user_id])
-      
+    @ingRec=@receta.receta_ings
+    @ingRec.each do |t|
+    logger.info "Ings en Rec-----"+t.ingrediente.nombre.to_s
+    end      
   end
 
   # GET /receta/new
